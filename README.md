@@ -7,8 +7,7 @@ Clone repository
 git clone https://github.com/frankkhiem/quanlyduanHTTT.git
 ```
 
-Create MySQL Database k3mn_shop
-Import file k3mn_shop_database.sql into newly created database
+Create MySQL Database k3mn_shop And import file k3mn_shop_database.sql into newly created database
 
 Install the dependencies.
 
