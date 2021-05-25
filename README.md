@@ -26,3 +26,5 @@ npm run dev
 ```
 
 Open http://127.0.0.1:8000 to use website.
+
+Login as administrator using account in file Tài khoản Admin.txt
