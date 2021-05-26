@@ -139,6 +139,7 @@ nav a:hover {
 
 .small-row {
     margin-bottom: 20px;
+    margin-left: 50px;
 }
 
 .infor {
@@ -150,8 +151,15 @@ p {
     color: red;
 }
 
-.col2 {
-    flex-basis: 40%;
+.col70 {
+    flex-basis: 70%;
+}
+
+.col20 {
+    flex-basis: 20%;
     min-width: 300px;
-    padding: 20px;
+}
+
+.col20 img {
+    width: 100%;
 }

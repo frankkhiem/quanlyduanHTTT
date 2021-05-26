@@ -42,11 +42,8 @@ class OrderController extends Controller
                     ->select('products.name as product_name', 'products.thumbnail as thumbnail', 'status_orders.name as status_name','orders.*')
                     ->where('orders.id', $id)
                     ->get();
-        // $costOrder = DB::table('orders')
-        //             ->selectRaw('sum(quantity * sale_price) AS total')
-        //             ->where('id',$id)
-        //             ->get();
-        return $order;
+        // $unitPrice = Order::find($id)->sale_price;
+        return response()->json($order);
     }
 
     public function store(Request $request)

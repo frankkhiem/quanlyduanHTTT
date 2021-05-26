@@ -117,7 +117,6 @@ class AdminCategoryController extends Controller
             $product->save();
         }
         Category::where('id', $id)->delete();
-        return 'hi';
-        // return redirect()->route('adminCategory.index');
+        return redirect()->route('adminCategory.index');
     }
 }

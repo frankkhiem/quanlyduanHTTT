@@ -2556,7 +2556,20 @@ __webpack_require__.r(__webpack_exports__);
       console.log('Loi tai thong tin don dat hang');
     });
   },
-  methods: {},
+  methods: {
+    logout: function logout(event) {
+      event.preventDefault();
+      var user = {
+        id: this.user[0].id
+      };
+      axios.post('/api/logout', user).then(function (response) {
+        console.log(response);
+        window.location.href = '/login';
+      })["catch"](function () {
+        console.log('Loi dang xuat');
+      });
+    }
+  },
   watch: {
     user: function user() {
       if (this.user.length > 0) {
@@ -8075,7 +8088,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "/*header*/\n.navbar[data-v-30ab9ca4] {\r\n    display: flex;\r\n    align-items: center;\r\n    padding: 20px;\n}\nnav[data-v-30ab9ca4] {\r\n    flex: 1;\r\n    text-align: right;\n}\nnav ul[data-v-30ab9ca4] {\r\n    display: inline-block;\r\n    list-style-type: none;\n}\nnav ul li[data-v-30ab9ca4] {\r\n    display: inline-block;\r\n    margin-right: 20px;\n}\na[data-v-30ab9ca4] {\r\n    text-decoration: none;\r\n    color: rgb(32, 28, 28);\n}\n.container[data-v-30ab9ca4] {\r\n    max-width: 1300px;\r\n    margin: auto;\r\n    padding-left: 25px;\r\n    padding-right: 25px;\n}\n.row[data-v-30ab9ca4] {\r\n    display: flex;\r\n    align-items: center;\r\n    flex-wrap: wrap;\r\n    justify-content: space-around;\n}\n.header[data-v-30ab9ca4] {\r\n    background: radial-gradient(#eae1eb, #b092b3)\n}\n.small-container[data-v-30ab9ca4] {\r\n    max-width: 1100px;\r\n    margin: auto;\r\n    padding-left: 25px;\r\n    padding-right: 25px;\n}\nnav a[data-v-30ab9ca4]:hover {\r\n    border-bottom: 2px solid rgb(32, 28, 28);\n}\n.navbar a[data-v-30ab9ca4] {\r\n    margin-right: 20px;\n}\n.navbar nav a[data-v-30ab9ca4] {\r\n    margin-right: 0;\n}\n.avatar[data-v-30ab9ca4] {\r\n    vertical-align: middle;\r\n    width: 40px;\r\n    height: 40px;\r\n    border-radius: 50%;\r\n    cursor: pointer;\n}\n.account[data-v-30ab9ca4] {\r\n    position: relative;\r\n    display: inline-block;\n}\n.dropdown-menu[data-v-30ab9ca4] {\r\n    margin-top: 5px;\r\n    display: block;\r\n    position: absolute;\r\n    background-color: #f1f1f1;\r\n    min-width: 120px;\r\n    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);\r\n    z-index: 1;\n}\n.dropdown-menu a[data-v-30ab9ca4] {\r\n    display: block;\r\n    text-decoration: none;\r\n    color: rgb(32, 28, 28);\r\n    padding: 12px 16px;\r\n    margin-right: 0;\n}\n.dropdown-menu a[data-v-30ab9ca4]:hover {\r\n    background-color: #ddd;\n}\n.dropdown-menu p[data-v-30ab9ca4] {\r\n    display: block;\r\n    text-decoration: none;\r\n    color: rgb(32, 28, 28);\r\n    padding: 12px 16px;\r\n    margin-right: 0;\n}\r\n\r\n\r\n/*footer*/\n.footer[data-v-30ab9ca4] {\r\n    background: #000;\r\n    color: #8a8a8a;\r\n    font-size: 15px;\r\n    padding: 60px 0 20px;\n}\n.btn[data-v-30ab9ca4] {\r\n    display: inline-block;\r\n    background: rgb(76, 76, 171);\r\n    color: white;\r\n    padding: 8px 30px;\r\n    margin: 30px 0;\r\n    border-radius: 60px;\r\n    transition: background 0.5s\n}\n.btn[data-v-30ab9ca4]:hover {\r\n    background: #64C9DF\n}\n.small-container[data-v-30ab9ca4] {\r\n    max-width: 1100px;\r\n    margin: auto;\r\n    padding-left: 25px;\r\n    padding-right: 25px;\n}\n.small-row[data-v-30ab9ca4] {\r\n    margin-bottom: 20px;\n}\n.infor[data-v-30ab9ca4] {\r\n    float: left;\r\n    width: 250px;\n}\np[data-v-30ab9ca4] {\r\n    color: red;\n}\n.col2[data-v-30ab9ca4] {\r\n    flex-basis: 40%;\r\n    min-width: 300px;\r\n    padding: 20px;\n}", ""]);
+exports.push([module.i, "/*header*/\n.navbar[data-v-30ab9ca4] {\r\n    display: flex;\r\n    align-items: center;\r\n    padding: 20px;\n}\nnav[data-v-30ab9ca4] {\r\n    flex: 1;\r\n    text-align: right;\n}\nnav ul[data-v-30ab9ca4] {\r\n    display: inline-block;\r\n    list-style-type: none;\n}\nnav ul li[data-v-30ab9ca4] {\r\n    display: inline-block;\r\n    margin-right: 20px;\n}\na[data-v-30ab9ca4] {\r\n    text-decoration: none;\r\n    color: rgb(32, 28, 28);\n}\n.container[data-v-30ab9ca4] {\r\n    max-width: 1300px;\r\n    margin: auto;\r\n    padding-left: 25px;\r\n    padding-right: 25px;\n}\n.row[data-v-30ab9ca4] {\r\n    display: flex;\r\n    align-items: center;\r\n    flex-wrap: wrap;\r\n    justify-content: space-around;\n}\n.header[data-v-30ab9ca4] {\r\n    background: radial-gradient(#eae1eb, #b092b3)\n}\n.small-container[data-v-30ab9ca4] {\r\n    max-width: 1100px;\r\n    margin: auto;\r\n    padding-left: 25px;\r\n    padding-right: 25px;\n}\nnav a[data-v-30ab9ca4]:hover {\r\n    border-bottom: 2px solid rgb(32, 28, 28);\n}\n.navbar a[data-v-30ab9ca4] {\r\n    margin-right: 20px;\n}\n.navbar nav a[data-v-30ab9ca4] {\r\n    margin-right: 0;\n}\n.avatar[data-v-30ab9ca4] {\r\n    vertical-align: middle;\r\n    width: 40px;\r\n    height: 40px;\r\n    border-radius: 50%;\r\n    cursor: pointer;\n}\n.account[data-v-30ab9ca4] {\r\n    position: relative;\r\n    display: inline-block;\n}\n.dropdown-menu[data-v-30ab9ca4] {\r\n    margin-top: 5px;\r\n    display: block;\r\n    position: absolute;\r\n    background-color: #f1f1f1;\r\n    min-width: 120px;\r\n    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);\r\n    z-index: 1;\n}\n.dropdown-menu a[data-v-30ab9ca4] {\r\n    display: block;\r\n    text-decoration: none;\r\n    color: rgb(32, 28, 28);\r\n    padding: 12px 16px;\r\n    margin-right: 0;\n}\n.dropdown-menu a[data-v-30ab9ca4]:hover {\r\n    background-color: #ddd;\n}\n.dropdown-menu p[data-v-30ab9ca4] {\r\n    display: block;\r\n    text-decoration: none;\r\n    color: rgb(32, 28, 28);\r\n    padding: 12px 16px;\r\n    margin-right: 0;\n}\r\n\r\n\r\n/*footer*/\n.footer[data-v-30ab9ca4] {\r\n    background: #000;\r\n    color: #8a8a8a;\r\n    font-size: 15px;\r\n    padding: 60px 0 20px;\n}\n.btn[data-v-30ab9ca4] {\r\n    display: inline-block;\r\n    background: rgb(76, 76, 171);\r\n    color: white;\r\n    padding: 8px 30px;\r\n    margin: 30px 0;\r\n    border-radius: 60px;\r\n    transition: background 0.5s\n}\n.btn[data-v-30ab9ca4]:hover {\r\n    background: #64C9DF\n}\n.small-container[data-v-30ab9ca4] {\r\n    max-width: 1100px;\r\n    margin: auto;\r\n    padding-left: 25px;\r\n    padding-right: 25px;\n}\n.small-row[data-v-30ab9ca4] {\r\n    margin-bottom: 20px;\r\n    margin-left: 50px;\n}\n.infor[data-v-30ab9ca4] {\r\n    float: left;\r\n    width: 250px;\n}\np[data-v-30ab9ca4] {\r\n    color: red;\n}\n.col70[data-v-30ab9ca4] {\r\n    flex-basis: 70%;\n}\n.col20[data-v-30ab9ca4] {\r\n    flex-basis: 20%;\r\n    min-width: 300px;\n}\n.col20 img[data-v-30ab9ca4] {\r\n    width: 100%;\n}", ""]);
 
 // exports
 
@@ -41488,19 +41501,19 @@ var render = function() {
             staticClass: "row"
           },
           [
-            _c("div", { staticClass: "col2" }, [
+            _c("div", { staticClass: "col20" }, [
               _c("img", {
                 attrs: { src: "/uploads/imagesProduct/" + _vm.order.thumbnail }
               })
             ]),
             _vm._v(" "),
-            _c("div", { staticClass: "col2" }, [
+            _c("div", { staticClass: "col70" }, [
               _c("div", { staticClass: "small-row" }, [
                 _c("label", { staticClass: "infor", attrs: { for: "" } }, [
                   _vm._v("Tên sản phẩm:")
                 ]),
                 _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(_vm.order.product_name))])
+                _c("p", [_c("b", [_vm._v(_vm._s(_vm.order.product_name))])])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "small-row" }, [
@@ -41508,7 +41521,7 @@ var render = function() {
                   _vm._v("Trạng thái đơn hàng:")
                 ]),
                 _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(_vm.order.status_name))])
+                _c("p", [_c("b", [_vm._v(_vm._s(_vm.order.status_name))])])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "small-row" }, [
@@ -41517,8 +41530,10 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _vm.order.address_order != null
-                  ? _c("p", [_vm._v(_vm._s(_vm.order.address_order))])
-                  : _c("p", [_vm._v("Không rõ")])
+                  ? _c("p", [
+                      _c("b", [_vm._v(_vm._s(_vm.order.address_order))])
+                    ])
+                  : _c("p", [_c("b", [_vm._v("Không rõ")])])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "small-row" }, [
@@ -41527,8 +41542,8 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _vm.order.phone_order != null
-                  ? _c("p", [_vm._v(_vm._s(_vm.order.phone_order))])
-                  : _c("p", [_vm._v("Không rõ")])
+                  ? _c("p", [_c("b", [_vm._v(_vm._s(_vm.order.phone_order))])])
+                  : _c("p", [_c("b", [_vm._v("Không rõ")])])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "small-row" }, [
@@ -41536,7 +41551,7 @@ var render = function() {
                   _vm._v("Ngày đặt hàng:")
                 ]),
                 _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(_vm.order.created_at))])
+                _c("p", [_c("b", [_vm._v(_vm._s(_vm.order.created_at))])])
               ]),
               _vm._v(" "),
               _vm.order.completed_date != null
@@ -41545,7 +41560,9 @@ var render = function() {
                       _vm._v("Ngày hoàn thành đơn hàng:")
                     ]),
                     _vm._v(" "),
-                    _c("p", [_vm._v(_vm._s(_vm.order.completed_date))])
+                    _c("p", [
+                      _c("b", [_vm._v(_vm._s(_vm.order.completed_date))])
+                    ])
                   ])
                 : _vm._e(),
               _vm._v(" "),
@@ -41554,9 +41571,13 @@ var render = function() {
                   _vm._v("Đơn giá:")
                 ]),
                 _vm._v(" "),
-                (_vm.order.sale_price = !null)
+                _vm.order.sale_price != null
                   ? _c("p", [
-                      _vm._v(_vm._s(_vm._f("FomatPrice")(_vm.order.sale_price)))
+                      _c("b", [
+                        _vm._v(
+                          _vm._s(_vm._f("FomatPrice")(_vm.order.sale_price))
+                        )
+                      ])
                     ])
                   : _vm._e()
               ]),
@@ -41566,7 +41587,7 @@ var render = function() {
                   _vm._v("Số lượng:")
                 ]),
                 _vm._v(" "),
-                _c("p", [_vm._v(_vm._s(_vm.order.quantity))])
+                _c("p", [_c("b", [_vm._v(_vm._s(_vm.order.quantity))])])
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "small-row" }, [
@@ -41574,15 +41595,17 @@ var render = function() {
                   _vm._v("Tổng tiền:")
                 ]),
                 _vm._v(" "),
-                (_vm.order.sale_price = !null)
+                _vm.order.sale_price != null
                   ? _c("p", [
-                      _vm._v(
-                        _vm._s(
-                          _vm._f("FomatPrice")(
-                            _vm.order.quantity * _vm.order.sale_price
+                      _c("b", [
+                        _vm._v(
+                          _vm._s(
+                            _vm._f("FomatPrice")(
+                              _vm.order.quantity * _vm.order.sale_price
+                            )
                           )
                         )
-                      )
+                      ])
                     ])
                   : _vm._e()
               ])
@@ -59980,8 +60003,8 @@ module.exports = "/images/Logo.png?c08d36434f1b8f851fbbfd69c0bf449d";
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\xampp\htdocs\k3mn_shop\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\xampp\htdocs\k3mn_shop\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\KHyM\Documents\quanlyduanHTTT\k3mn_shop\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\KHyM\Documents\quanlyduanHTTT\k3mn_shop\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

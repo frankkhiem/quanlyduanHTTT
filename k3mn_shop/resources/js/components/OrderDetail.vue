@@ -34,47 +34,47 @@
         </div>
         <hr>
         <div v-show="order.id != null" class="row">
-            <div class="col2">
+            <div class="col20">
 				<img :src="'/uploads/imagesProduct/' + order.thumbnail">
 			</div>
-            <div class="col2">
+            <div class="col70">
                 <div class="small-row">
                 <label class="infor" for="">Tên sản phẩm:</label>
-                <p>{{ order.product_name }}</p>
+                <p><b>{{ order.product_name }}</b></p>
             </div>
             <div class="small-row">
                 <label class="infor" for="">Trạng thái đơn hàng:</label>
-                <p>{{ order.status_name }}</p>
+                <p><b>{{ order.status_name }}</b></p>
             </div>
             <div class="small-row">
                 <label class="infor" for="">Địa chỉ giao hàng:</label>
-                <p v-if="order.address_order != null">{{ order.address_order }}</p>
-                <p v-else>Không rõ</p>
+                <p v-if="order.address_order != null"><b>{{ order.address_order }}</b></p>
+                <p v-else><b>Không rõ</b></p>
             </div>
             <div class="small-row">
                 <label class="infor" for="">Số điện thoại đặt hàng:</label>
-                <p v-if="order.phone_order != null">{{ order.phone_order }}</p>
-                <p v-else>Không rõ</p>
+                <p v-if="order.phone_order != null"><b>{{ order.phone_order }}</b></p>
+                <p v-else><b>Không rõ</b></p>
             </div>
             <div class="small-row">
                 <label class="infor" for="">Ngày đặt hàng:</label>
-                <p>{{ order.created_at }}</p>
+                <p><b>{{ order.created_at }}</b></p>
             </div>
             <div class="small-row" v-if="order.completed_date != null">
                 <label class="infor" for="">Ngày hoàn thành đơn hàng:</label>
-                <p>{{ order.completed_date }}</p>
+                <p><b>{{ order.completed_date }}</b></p>
             </div>
             <div class="small-row">
                 <label class="infor" for="">Đơn giá:</label>
-                <p v-if="order.sale_price =! null">{{ order.sale_price | FomatPrice}}</p>
+                <p v-if="order.sale_price != null"><b>{{ order.sale_price | FomatPrice}}</b></p>
             </div>
             <div class="small-row">
                 <label class="infor" for="">Số lượng:</label>
-                <p>{{ order.quantity }}</p>
+                <p><b>{{ order.quantity }}</b></p>
             </div>            
             <div class="small-row">
                 <label class="infor" for="">Tổng tiền:</label>
-                <p v-if="order.sale_price =! null">{{ order.quantity * order.sale_price | FomatPrice}}</p>
+                <p v-if="order.sale_price != null"><b>{{ order.quantity * order.sale_price | FomatPrice}}</b></p>
             </div>
             </div>
             
@@ -138,7 +138,20 @@
         },
 
         methods: {
-            
+            logout(event) {
+                event.preventDefault();
+                const user = {
+                    id: this.user[0].id
+                };
+                axios.post('/api/logout', user)
+                    .then(response => {
+                        console.log(response);
+						window.location.href = '/login';
+                    })
+                    .catch(function(){
+						console.log('Loi dang xuat');
+					});
+			},
         },
         watch: {
             user() {
