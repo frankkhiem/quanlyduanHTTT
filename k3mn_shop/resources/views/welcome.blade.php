@@ -11,7 +11,7 @@
     </head>
     <body>
         <div id="app">
-            <router-view csrf="{{csrf_token()}}"></router-view>
+            <router-view></router-view>
         </div>
         </body>
     <script src="{{ url('js/app.js') }}"></script>

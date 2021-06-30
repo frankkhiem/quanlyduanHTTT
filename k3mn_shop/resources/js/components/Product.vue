@@ -1,39 +1,5 @@
 <template>
     <div>
-        <div class="header">
-          <div class="container">
-            <div class="navbar">
-              <div class="logo">
-                <a href="/home"><img src="../images/Logo.png" width="150px"></a>
-              </div>
-              <nav>
-                <ul>
-                  <li><router-link to="/home">Trang chủ</router-link></li>
-                  <li><router-link to="/products">Sản phẩm</router-link></li>
-                  <li v-if="set_user == false"><a href="/login">Đăng nhập</a></li>
-                  <li>
-                    <form @submit="search($event)">
-                      <input type="text" v-model="keyword" placeholder="Tìm kiếm sản phẩm..." />
-                      <button type="submit"><i class="fas fa-search"></i>>></button>
-                    </form>
-                  </li>
-                </ul>
-              </nav>
-              <router-link to="/listorders" v-if="set_user == true"><img src="../images/Cart.png" width="30px" height="30px"></router-link>
-              <div class="account">
-                  <img v-if="set_user == true && user[0].avatar == null" class="avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1CfdSF5Sdj53VRzQtJe8dgcoDLSyH5tK_sGgyhlfs91uiPe4FAg0u_nsBPDIGovorvso&usqp=CAU" width="30px" height="30px" @click="show_acc = !show_acc">
-                        <img v-if="set_user == true && user[0].avatar != null" class="avatar" :src="'/uploads/avatar/' + user[0].avatar" width="30px" height="30px" @click="show_acc = !show_acc">
-                  <div class="dropdown-menu" v-show="show_acc == true">
-                      <p v-if="user[0] != null"><b>{{ user[0].name }}</b></p>
-                      <hr>
-                      <router-link to="/profile">Hồ sơ</router-link>
-                      <a href="#" @click="logout($event)">Đăng xuất</a>
-                  </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- Phan thong tin san pham -->
         
         <div class="small-container product-details-page" v-if="product[0] != null">
@@ -54,6 +20,7 @@
                     <p><b>{{ product[0].price | FomatPrice }}</b></p>
                     <h3>Tình trạng : {{ product[0].status_product.name }}</h3>
                     <button v-if="product[0].status_product.name == 'Còn hàng'" class="btn" @click="buy($event, product[0].id)">Mua ngay</button>
+                    <button v-if="product[0].status_product.name == 'Còn hàng'" class="btn" @click="add_cart($event, product[0].id)">Thêm vào giỏ hàng</button>
                     <button v-else class="btn" @click="buy($event, product[0].id)">Đặt trước</button>
 			    </div>
             </div>
@@ -98,30 +65,12 @@
 				</div>
 			</div>
 	</div>
-        <!-----footer---->
-        <div class="footer">
-            <div class="container">
-                <div class="row">
-                    <div class="footer-col-1">
-                        <h3>Web K3MN</h3>
-                    </div>
-                    <div class="footer-col-2">
-                        <h3>Sản phẩm của:</h3>
-                        <ul>
-                            <li>Nguyễn Quốc Khánh</li>
-                            <li>Nguyễn Gia Khiêm</li>
-                            <li>Nguyễn Huy Mạnh</li>
-                            <li>Trần Minh Khương</li>
-                            <li>Nguyễn Văn Nam</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+
     export default {
         props: [
           'id',
@@ -130,7 +79,6 @@
         data() {
           return {
             product: [],
-            user: [],
             comments: [],
             cmt_current_page: 1,
             cmt_last_page: 1,
@@ -139,7 +87,6 @@
                 content: '',
             },
             images: [],
-            set_user: false,
             show_acc: false,
             keyword: '',
             Avt_src: "",
@@ -148,14 +95,6 @@
         },
 
         mounted() {
-            axios.get('/api/profile')
-                .then(response => {
-                    this.user = response.data;
-                    // console.log(this.user);
-                })
-                .catch(function(){
-                    console.log('Loi tai user');
-                });
             axios.get('/api/product/' + this.id)
                 .then(response => {
                     this.product = response.data;
@@ -187,6 +126,19 @@
                 .catch(function(){
                     console.log('Loi tai san pham duoc goi y');
                 });
+        },
+
+        computed: {
+          ...mapGetters({
+            user: 'info_user'
+          }),
+          set_user: function() {
+
+            if( this.user.length == 0 ) {
+              return false;
+            }
+            return true;
+          }
         },
 
         methods: {
@@ -226,6 +178,28 @@
                 this.comments.unshift({user_id: this.user[0].id, user_name: this.user[0].name, content: comment.content});
                 comment.content = '';
                 // console.log(this.comments);
+            },
+
+            add_cart(event, product_id) {
+                event.preventDefault();
+                if (!this.set_user) {
+                    window.location.href = '/login';
+                    return;
+                } else {
+                    // this.$router.push('/order/product/' + product_id);
+                    var cart = {
+                        user_id: this.user[0].id,
+                        product_id: product_id
+                    };
+                    axios.post('/api/cart', cart)
+                    .then(response => {
+                        this.$alert("Bạn đã thêm sản phẩm vào giỏ hàng!");
+                    })
+                    .catch(function(){
+                        console.log("loi them vao gio hang");
+                    });
+                    return;
+                };
             },
 
             search(event) {
@@ -274,14 +248,7 @@
         },
 
         watch: {
-            user() {
-                if(this.user.length > 0) {
-                    this.set_user = true;
-                }
-                else {
-                    this.set_user = false;
-                }
-            }
+            
         },
         filters: {
             FomatPrice: function(value){

@@ -1,32 +1,5 @@
 <template>
     <div>
-        <div class="header">
-          <div class="container">
-            <div class="navbar">
-                <div class="logo">
-                    <a href="/home"><img src="../images/Logo.png" width="150px"></a>
-                </div>
-                <nav>
-                    <ul>
-                        <li><router-link to="/home">Trang chủ</router-link></li>
-                        <li><router-link to="/products">Sản phẩm</router-link></li>
-                        <li v-if="set_user == false"><a href="/login">Đăng nhập</a></li>
-                    </ul>
-                </nav>
-                <router-link to="/listorders" v-if="set_user == true"><img src="../images/Cart.png" width="30px" height="30px"></router-link>
-                <div class="account">
-                    <img v-if="set_user == true && user[0].avatar == null" class="avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1CfdSF5Sdj53VRzQtJe8dgcoDLSyH5tK_sGgyhlfs91uiPe4FAg0u_nsBPDIGovorvso&usqp=CAU" width="30px" height="30px" @click="show_acc = !show_acc">
-                        <img v-if="set_user == true && user[0].avatar != null" class="avatar" :src="'/uploads/avatar/' + user[0].avatar" width="30px" height="30px" @click="show_acc = !show_acc">
-                    <div class="dropdown-menu" v-show="show_acc == true">
-                        <p v-if="user[0] != null"><b>{{ user[0].name }}</b></p>
-                        <hr>
-                        <router-link to="/profile">Hồ sơ</router-link>
-                        <a href="#" @click="logout($event)">Đăng xuất</a>
-                    </div>
-                </div>
-          </div>
-        </div>
-        </div>
         <div class="small-container">
         <div v-if="user[0] != null">
             <h1>Lịch sử mua hàng của: {{ user[0].name }}</h1>
@@ -61,52 +34,22 @@
         </table>
         </div>
     </div>
-     <!-----footer---->
-        <div class="footer">
-          <div class="container">
-            <div class="row">
-              <div class="footer-col-1">
-                <h3>Web K3MN</h3>
-              </div>
-              <div class="footer-col-2">
-                <h3>Sản phẩm của:</h3>
-                <ul>
-                  <li>Nguyễn Quốc Khánh</li>
-                  <li>Nguyễn Gia Khiêm</li>
-                  <li>Nguyễn Huy Mạnh</li>
-                  <li>Trần Minh Khương</li>
-                  <li>Nguyễn Văn Nam</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
     </div>
-    
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+
     export default {
         data() {
             return {
                 orders: [],
                 totalAmount: [],
                 totalOrders: -1,
-                user: [],
-                set_user: false,
-                show_acc: false,
             }
         },
 
         mounted() {
-            axios.get('/api/profile')
-                .then(response => {
-                    this.user = response.data;
-                    // console.log(this.user);
-                })
-                .catch(function(){
-                    console.log('Loi tai user');
-                });
             axios.get('/api/listorders')
                 .then(response => {
                     this.orders = response.data.listOrders;
@@ -121,6 +64,13 @@
                 });
         },
 
+        computed: {
+          ...mapGetters({
+            user: 'info_user',
+            set_user: 'user_isset',
+          }),
+        },
+
         methods: {
             orderDetail(event, id) {
                 event.preventDefault();
@@ -130,14 +80,7 @@
         },
         
         watch: {
-            user() {
-                if(this.user.length > 0) {
-                    this.set_user = true;
-                }
-                else {
-                    this.set_user = false;
-                }
-            }
+            
         },
         filters: {
             FomatPrice: function(value){

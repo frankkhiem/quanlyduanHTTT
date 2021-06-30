@@ -10,83 +10,17 @@ window.Vue = require('vue');
 
 // import vue router
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-Vue.use(VueRouter)
+import VueSimpleAlert from "vue-simple-alert"
+Vue.use(VueSimpleAlert)
 
 // import axios
 window.axios = require('axios');
 
-// xay dung cac route frontend
-import Index from './components/index.vue';
-import Profile from './components/Profile.vue';
-import Products from './components/Products.vue';
-import AllProducts from './components/AllProducts.vue';
-import SearchProducts from './components/SearchProducts.vue';
-import ProductsInCategory from './components/ProductsInCategory.vue';
-import Product from './components/Product.vue';
-import Order from './components/Order.vue';
-import ListOrders from './components/ListOrders.vue';
-import OrderDetail from './components/OrderDetail.vue';
+// đưa VueRouter vào
+import router from './router';
 
-const router = new VueRouter({
-    mode: 'history',
-    routes: [
-        {
-            path: '/',
-            component: Index,
-        },
-        {
-            path: '/home',
-            component: Index,
-        },
-        {
-            path: '/profile',
-            component: Profile,
-        },
-        {
-            path: '/products',
-            component: Products,
-            children: [
-                {
-                    path: '',
-                    component: AllProducts,
-                    name: 'AllProducts',
-                },
-                {
-                    path: 'search/:keyword',
-                    component: SearchProducts,
-                    name: 'SearchProducts',
-                    props: true,
-                },
-                {
-                    path: 'category/:category_id',
-                    component: ProductsInCategory,
-                    props: true,
-                },
-            ]
-        },
-        {
-            path: '/product/:id',
-            component: Product,
-            props: true,
-        },
-        {
-            path: '/order/product/:id',
-            component: Order,
-            props: true,
-        },
-        {
-            path: '/listorders',
-            component: ListOrders,
-            name: 'ListOrders',
-        },
-        {
-            path: '/order/detail/:id',
-            component: OrderDetail,
-            props: true,
-        },
-    ]
-})
+// đưa VueX vào
+import store from './store';
 
 /**
  * The following block of code may be used to automatically register your
@@ -113,4 +47,8 @@ Vue.prototype.eventBus = new Vue();
 const app = new Vue({
     el: '#app',
     router,
+    store,
+    created() {
+        store.dispatch('fetchAPIGetUser');
+    }
 });

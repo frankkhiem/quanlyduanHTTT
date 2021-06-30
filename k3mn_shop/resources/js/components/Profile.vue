@@ -1,22 +1,5 @@
 <template>
 <div>
-    <div class="header">
-		<div class="container">
-			<div class="navbar">
-				<div class="logo">
-					<a href="/home"><img src="../images/Logo.png" width="150px"></a>
-				</div>
-				<nav>
-					<ul>
-						<li><router-link to="/home">Trang chủ</router-link></li>
-						<li><router-link to="/products">Sản phẩm</router-link></li>
-						<li><a href="#" @click="logout($event)">Đăng xuất</a></li>
-					</ul>
-				</nav>
-				<router-link to="/listorders"><img src="../images/Cart.png" width="30px" height="30px"></router-link>
-			</div>
-		</div>
-	</div>
 	<div class="small-container userprofile-page">
 		<div class="row">
 			<div class="col2" v-if="user[0] != null">
@@ -87,25 +70,6 @@
 			</div>
 				</div>
 	<!-----footer---->
-	<div class="footer">
-		<div class="container">
-			<div class="row">
-				<div class="footer-col-1">
-					<h3>Web nay rat xin</h3>
-				</div>
-				<div class="footer-col-2">
-					<h3>San pham cua</h3>
-					<ul>
-						<li>Nguyen quoc khanh</li>
-						<li>Nguyen gia khiem</li>
-						<li>huy manh Nguyen</li>
-						<li>Tran minh khuong</li>
-						<li>Nguyen van Nam</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</div>
 </div>	
 </template>
 

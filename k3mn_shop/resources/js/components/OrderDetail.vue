@@ -13,7 +13,7 @@
                         <li v-if="set_user == false"><a href="/login">Đăng nhập</a></li>
                     </ul>
                 </nav>
-                <router-link to="/listorders" v-if="set_user == true"><img src="../images/Cart.png" width="30px" height="30px"></router-link>
+                <router-link to="/cart" v-if="set_user == true"><img src="../images/Cart.png" width="30px" height="30px"></router-link>
                 <div class="account">
                     <img v-if="set_user == true && user[0].avatar == null" class="avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1CfdSF5Sdj53VRzQtJe8dgcoDLSyH5tK_sGgyhlfs91uiPe4FAg0u_nsBPDIGovorvso&usqp=CAU" width="30px" height="30px" @click="show_acc = !show_acc">
                         <img v-if="set_user == true && user[0].avatar != null" class="avatar" :src="'/uploads/avatar/' + user[0].avatar" width="30px" height="30px" @click="show_acc = !show_acc">
@@ -21,6 +21,7 @@
                          <p v-if="user[0] != null"><b>{{ user[0].name }}</b></p>
                         <hr>
                         <router-link to="/profile">Hồ sơ</router-link>
+                        <router-link to="/listorders">Lịch sử mua hàng</router-link>
                         <a href="#" @click="logout($event)">Đăng xuất</a>
                     </div>
                 </div>
@@ -104,6 +105,8 @@
 </template>
 
 <script>
+    import {mapGetters} from 'vuex';
+
     export default {
         props: [
             'id',
@@ -112,21 +115,11 @@
         data() {
             return {
                 order: {},
-                user: [],
-                set_user: false,
                 show_acc: false,
             }
         },
 
         mounted() {
-            axios.get('/api/profile')
-                .then(response => {
-                    this.user = response.data;
-                    // console.log(this.user);
-                })
-                .catch(function(){
-                    console.log('Loi tai user');
-                });
             axios.get('/api/order/' + this.id)
                 .then(response => {
                     this.order = response.data[0];
@@ -135,6 +128,19 @@
                 .catch(function(){
                   console.log('Loi tai thong tin don dat hang');
                 });
+        },
+
+        computed: {
+          ...mapGetters({
+            user: 'info_user'
+          }),
+          set_user: function() {
+
+            if( this.user.length == 0 ) {
+              return false;
+            }
+            return true;
+          }
         },
 
         methods: {
