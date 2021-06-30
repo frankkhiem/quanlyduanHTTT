@@ -33,7 +33,6 @@
     components: {
       Header
     },
-
   }
 </script>
 
