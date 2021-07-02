@@ -70,3 +70,7 @@ Route::post('/cart', 'Api\CartController@store');
 Route::get('/cart', 'Api\CartController@getCartByUserId');
 Route::delete('/cart/{id}', 'Api\CartController@destroy');
 Route::delete('/cart/delete/all', 'Api\CartController@destroy_all');
+
+// API login cho SPA
+Route::post('/login', 'Api\AuthSPAController@login');
+Route::middleware('auth:sanctum')->get('/logout', 'Api\AuthSPAController@logout');

@@ -10,7 +10,7 @@
                         <ul>
                             <li><router-link to="/home">Trang chủ</router-link></li>
                             <li><router-link to="/products">Sản phẩm</router-link></li>
-                            <li v-if="set_user == false"><a href="/login">Đăng nhập</a></li>
+                            <li v-if="set_user == false"><a href="#" @click.prevent="showModalLogin">Đăng nhập</a></li>
                         </ul>
                     </nav>
                     <router-link to="/cart" v-if="set_user == true"><img src="../images/Cart.png" width="30px" height="30px"></router-link>
@@ -39,6 +39,8 @@
             </div>
         </div>
         
+        <modal-login></modal-login>
+
     <!--Thể loại: có nghĩa là các cái ảnh(biểu diễn thể loại) bấm vào thì link đến các sản phẩm thuộc thể loại đó-->
         <div class="categories">
             <div class="small-container">
@@ -111,8 +113,13 @@
 
 <script>
     import {mapActions, mapGetters} from 'vuex';
+    import ModalLogin from './modals/ModalLogin.vue';
 
     export default {
+        components: {
+            ModalLogin,
+        },
+
         data() {
             return {
                 topProduct: [],
@@ -121,15 +128,7 @@
                 show_acc: false,
             }
         },
-        async created() {            
-            // axios.get('/api/profile')
-            //     .then(response => {
-            //         this.user = response.data;
-            //         // console.log(this.user);
-            //     })
-            //     .catch(function(){
-			// 		console.log('Loi tai user');
-			// 	});
+        async created() {
             axios.get('/api/topproduct')
                 .then(response => {
                     this.topProduct= response.data;
@@ -164,13 +163,10 @@
             //logout nguoi dung
             logout(event) {
                 event.preventDefault();
-                const user = {
-                    id: this.user[0].id
-                };
-                axios.post('/api/logout', user)
+                axios.get('/api/logout')
                     .then(response => {
                         console.log(response);
-						window.location.href = '/login';
+                        this.$router.go();
                     })
                     .catch(function(){
 						console.log('Loi dang xuat');
@@ -183,6 +179,7 @@
 
             ...mapActions({
                 getUser: 'featchAPIGetUser',
+                showModalLogin: 'showLogin',
             })
         },
 

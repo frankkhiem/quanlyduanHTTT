@@ -17,7 +17,7 @@ import Cart from '../components/Cart.vue';
 import AllComponent from '../components/AllComponent.vue'
 
 const router = new VueRouter({
-  mode: 'history',
+    mode: 'history',
     routes: [
         {
             path: '/',
@@ -26,6 +26,10 @@ const router = new VueRouter({
         {
             path: '/home',
             component: Index,
+        },
+        {
+            path: '/vue/login',
+            component: () => import('../components/Login.vue'),
         },
         {
             path: '*',
@@ -83,7 +87,11 @@ const router = new VueRouter({
                 },
             ]
         }
-    ]
+    ],
+
+    scrollBehavior (to, from, savedPosition) {
+        return { x: 0, y: 0 }
+    }
 });
 
 

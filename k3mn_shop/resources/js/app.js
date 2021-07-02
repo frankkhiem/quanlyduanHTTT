@@ -14,7 +14,8 @@ import VueSimpleAlert from "vue-simple-alert"
 Vue.use(VueSimpleAlert)
 
 // import axios
-window.axios = require('axios');
+// window.axios = require('axios');
+// window.axios.defaults.withCredentials = true;
 
 // đưa VueRouter vào
 import router from './router';

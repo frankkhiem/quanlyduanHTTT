@@ -9,7 +9,7 @@
           <ul>
             <li><router-link to="/home">Trang chủ</router-link></li>
             <li><router-link to="/products">Sản phẩm</router-link></li>
-            <li v-if="set_user == false"><a href="/login">Đăng nhập</a></li>
+            <li v-if="set_user == false"><a href="#" @click.prevent="showModalLogin">Đăng nhập</a></li>
             <li>
               <form @submit="search($event)">
                 <input type="text" v-model="keyword" placeholder="Tìm kiếm sản phẩm..." />
@@ -36,7 +36,7 @@
 </template>
 
 <script>
-    import {mapGetters} from 'vuex';
+    import {mapGetters, mapActions} from 'vuex';
 
     export default {
         data() {
@@ -73,21 +73,21 @@
             this.keyword = '';
           },
 
-          logout(event) {
-            event.preventDefault();
-              const user = {
-                  id: this.user[0].id
-              };
-              axios.post('/api/logout', user)
+          async logout(event) {
+              event.preventDefault();
+              axios.get('/api/logout')
                   .then(response => {
-                    console.log(response);
-						        window.location.href = '/login';
+                    window.location.href = '/';
                   })
                   .catch(function(){
-						        console.log('Loi dang xuat');
-					        });
+                    console.log('Loi dang xuat');
+                  });
 			    },
-        },
+
+          ...mapActions({
+            showModalLogin: 'showLogin',
+          })
+        }, 
 
         watch:{
           $route (to, from){

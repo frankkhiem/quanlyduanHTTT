@@ -1,6 +1,7 @@
 <template>
   <div>
-    <Header></Header>
+    <Header/>
+    <ModalLogin/>
     
     <router-view></router-view>
     
@@ -29,9 +30,12 @@
 
 <script>
   import Header from './Header.vue';
+  import ModalLogin from './modals/ModalLogin.vue'
+
   export default {
     components: {
-      Header
+      Header,
+      ModalLogin
     },
   }
 </script>
