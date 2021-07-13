@@ -19,6 +19,13 @@
           </ul>
         </nav>
         <router-link to="/cart" v-if="set_user == true"><img src="../images/Cart.png" width="30px" height="30px"></router-link>
+        <div class="container_notification_menu" v-if="set_user == true" @click.prevent="showNotificationMenu">
+          <div class="numbers_new_noti pointer" v-if="numberNewNotis > 0">{{ numberNewNotis }}</div>
+          <img class="pointer" src="../images/notification.png" width="22px" height="22px">
+
+          <NotificationMenu v-if="showNotification"/>
+
+        </div>
         <div class="account">
             <img v-if="set_user == true && user[0].avatar == null" class="avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1CfdSF5Sdj53VRzQtJe8dgcoDLSyH5tK_sGgyhlfs91uiPe4FAg0u_nsBPDIGovorvso&usqp=CAU" width="30px" height="30px" @click="show_acc = !show_acc">
                   <img v-if="set_user == true && user[0].avatar != null" class="avatar" :src="'/uploads/avatar/' + user[0].avatar" width="30px" height="30px" @click="show_acc = !show_acc">
@@ -37,25 +44,32 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
+    import NotificationMenu from './NotificationMenu.vue';
 
     export default {
+        components: {
+          NotificationMenu,
+        },
+
         data() {
             return {
                 keyword: '',
                 show_acc: false,
+                showNotification: false,
             }
         },
 
         mounted() {
-          
+
         },
 
         computed: {
           ...mapGetters({
-            user: 'info_user'
+            user: 'info_user',
+            numberNewNotis: 'numberNewNotis',
           }),
-          set_user: function() {
 
+          set_user: function() {
             if( this.user.length == 0 ) {
               return false;
             }
@@ -84,15 +98,28 @@
                   });
 			    },
 
+          showNotificationMenu: function() {
+            this.showNotification = !this.showNotification;
+            this.clickNotificationsMenu();
+          },
+
+          closeNotificationMenu: function() {
+            if( this.showNotification ) {
+              this.showNotification = false;
+            }
+            return
+          },
+
           ...mapActions({
             showModalLogin: 'showLogin',
+            clickNotificationsMenu: 'clickMenuNotifications',
           })
-        }, 
+        },        
 
         watch:{
           $route (to, from){
               this.show_acc = false;
-          }
+          },
         } 
     }
 </script>

@@ -8,14 +8,16 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-// import vue router
-import Vue from 'vue'
-import VueSimpleAlert from "vue-simple-alert"
-Vue.use(VueSimpleAlert)
+// import cac Vue UI 
+import Vue from 'vue';
+import VueSimpleAlert from "vue-simple-alert";
+Vue.use(VueSimpleAlert);
 
-// import axios
-// window.axios = require('axios');
-// window.axios.defaults.withCredentials = true;
+import Toast from "vue-toastification";
+// Import the CSS or use your own!
+import "vue-toastification/dist/index.css";
+Vue.use(Toast);
+
 
 // đưa VueRouter vào
 import router from './router';

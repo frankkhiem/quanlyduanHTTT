@@ -14,7 +14,8 @@ import Order from '../components/Order.vue';
 import ListOrders from '../components/ListOrders.vue';
 import OrderDetail from '../components/OrderDetail.vue';
 import Cart from '../components/Cart.vue';
-import AllComponent from '../components/AllComponent.vue'
+import AllComponent from '../components/AllComponent.vue';
+import NotificationDetail from '../components/NotificationDetail.vue';
 
 const router = new VueRouter({
     mode: 'history',
@@ -84,6 +85,10 @@ const router = new VueRouter({
                 {
                     path: '/cart',
                     component: Cart,
+                },
+                {
+                    path: '/notification/:id/detail',
+                    component: NotificationDetail,
                 },
             ]
         }

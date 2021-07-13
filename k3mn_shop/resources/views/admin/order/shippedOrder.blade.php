@@ -44,7 +44,9 @@
                   <p>Thời điểm bắt đầu giao hàng: {{ $order->shipped_date }}</p>
                 </td>
                 <td >
-                    <a href="{{ route('detailOrder', $order->id) }}" class="btn btn-warning btn-sm" >Chi tiết</a>                   
+                    <a href="{{ route('detailOrder', $order->id) }}" class="btn btn-warning btn-sm" >Chi tiết</a> 
+                    <br><br>
+                    <a href="{{ route('completedOrder', $order->id) }}" class="btn btn-success btn-sm">Hoàn thành</a>                     
                 </td>
             </tr>
             @endforeach

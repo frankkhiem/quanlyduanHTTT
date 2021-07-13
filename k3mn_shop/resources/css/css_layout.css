@@ -222,3 +222,36 @@ form button {
   border: 1px solid #919299;
   border-radius: 5px;
 }
+
+.pointer {
+  cursor: pointer;
+}
+
+img.pointer {
+  margin-right: 15px;
+}
+
+div.container_notification_menu {
+  position: relative;
+}
+
+.notification_menu {
+  position: absolute;
+  top: 50px;
+  left: -280px;
+}
+
+div.numbers_new_noti {
+  background-color: red;
+  color: white;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  position: absolute;
+  border-radius: 50%;
+  left: -8px;
+  top: -8px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 17px;
+}

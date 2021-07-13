@@ -2,6 +2,8 @@
   <div>
     <Header/>
     <ModalLogin/>
+    <GetNotifications/>
+    <notifications position="top center"/>
     
     <router-view></router-view>
     
@@ -30,12 +32,14 @@
 
 <script>
   import Header from './Header.vue';
-  import ModalLogin from './modals/ModalLogin.vue'
+  import ModalLogin from './modals/ModalLogin.vue';
+  import GetNotifications from './notifications/GetNotificatoins.vue'
 
   export default {
     components: {
       Header,
-      ModalLogin
+      ModalLogin,
+      GetNotifications,
     },
   }
 </script>

@@ -74,3 +74,9 @@ Route::delete('/cart/delete/all', 'Api\CartController@destroy_all');
 // API login cho SPA
 Route::post('/login', 'Api\AuthSPAController@login');
 Route::middleware('auth:sanctum')->get('/logout', 'Api\AuthSPAController@logout');
+
+// API lien quan toi xu ly thong bao cho nguoi dung
+Route::get('/list-notifications', 'Api\NotificationController@getListNotifications');
+Route::get('/notification/{id}', 'Api\NotificationController@getDetailNotificationById');
+Route::get('/number-of-new-notifications', 'Api\NotificationController@getNumberNewNotifications');
+Route::get('/watched-new-notifications', 'Api\NotificationController@watchedNewNotifications');

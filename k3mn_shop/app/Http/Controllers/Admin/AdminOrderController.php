@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Notification;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Events\NewNotification;
 
 class AdminOrderController extends Controller
 {
@@ -54,10 +56,20 @@ class AdminOrderController extends Controller
     // Các hàm xử lý việc cập nhật trạng thái đơn đặt hàng
     public function confirmOrder($id) {
         Order::findOrFail($id)
-                ->update([
-                    'status_order_id' => 2,
-                    'shipped_date' => Carbon::now('Asia/Ho_Chi_Minh'),
-                ]);
+            ->update([
+                'status_order_id' => 2,
+                'shipped_date' => Carbon::now('Asia/Ho_Chi_Minh'),
+            ]);
+        $user_id = Order::find($id)->user_id;
+        $notification = new Notification([
+            'user_id' => $user_id,
+            'content' => "Đơn hàng #$id của bạn đã được xác nhận và đang trong quá trình vận chuyển",
+        ]);
+        $notification->save();
+
+        // Tạo sự kiện có thông báo mới để realtime tới client
+        broadcast(new NewNotification($notification))->toOthers();
+
         return redirect()->route('listConfirmOrder');
     }
 
@@ -67,6 +79,14 @@ class AdminOrderController extends Controller
                     'status_order_id' => 3,
                     'completed_date' => Carbon::now('Asia/Ho_Chi_Minh'),
                 ]);
+        $user_id = Order::find($id)->user_id;
+        $notification = new Notification([
+            'user_id' => $user_id,
+            'content' => "Đơn hàng #$id đã được giao hàng thành công",
+        ]);
+        $notification->save();
+
+        broadcast(new NewNotification($notification))->toOthers();
         return redirect()->route('listShippedOrder');
     }
 }

@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
+        <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Laravel</title>
 
         <!-- Fonts -->
@@ -14,5 +14,6 @@
             <router-view></router-view>
         </div>
         </body>
+    <script src="http://localhost:6001/socket.io/socket.io.js"></script>
     <script src="{{ url('js/app.js') }}"></script>
 </html>

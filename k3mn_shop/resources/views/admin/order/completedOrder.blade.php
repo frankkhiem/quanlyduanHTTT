@@ -44,7 +44,7 @@
                   <p>Thời điểm hoàn thành: {{ $order->completed_date }}</p>
                 </td>
                 <td >
-                    <a href="{{ route('detailOrder', $order->id) }}" class="btn btn-warning btn-sm" >Chi tiết</a>                   
+                    <a href="{{ route('detailOrder', $order->id) }}" class="btn btn-warning btn-sm" >Chi tiết</a>           
                 </td>
             </tr>
             @endforeach

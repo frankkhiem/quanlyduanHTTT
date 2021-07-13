@@ -44,7 +44,9 @@
                   <p>Thời điểm đặt hàng: {{ $order->created_at }}</p>
                 </td>
                 <td >
-                    <a href="{{ route('detailOrder', $order->id) }}" class="btn btn-warning btn-sm" >Chi tiết</a>                   
+                    <a href="{{ route('detailOrder', $order->id) }}" class="btn btn-warning btn-sm" >Chi tiết</a>
+                    <br><br>
+                    <a href="{{ route('confirmOrder', $order->id) }}" class="btn btn-success btn-sm">Xác nhận</a>                  
                 </td>
             </tr>
             @endforeach
