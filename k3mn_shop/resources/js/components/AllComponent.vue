@@ -2,8 +2,7 @@
   <div>
     <Header/>
     <ModalLogin/>
-    <GetNotifications/>
-    <notifications position="top center"/>
+    <GetNotifications v-if="isLogin"/>
     
     <router-view></router-view>
     
@@ -33,7 +32,8 @@
 <script>
   import Header from './Header.vue';
   import ModalLogin from './modals/ModalLogin.vue';
-  import GetNotifications from './notifications/GetNotificatoins.vue'
+  import GetNotifications from './notifications/GetNotificatoins.vue';
+  import { mapGetters } from 'vuex';
 
   export default {
     components: {
@@ -41,6 +41,12 @@
       ModalLogin,
       GetNotifications,
     },
+
+    computed: {
+      ...mapGetters({
+        isLogin: 'user_isset'
+      }),
+    }
   }
 </script>
 

@@ -13,18 +13,14 @@ export default {
 
   created: function() {
     this.getListNotis();
+
+    Echo.leave('notification_realtime_for_user_' + this.user[0].id);
    
-    const intervalId = setInterval(() => {
-      if ( this.user.length !== 0 ) {
-        Echo.private('notification_realtime_for_user_' + this.user[0].id)
-          .listen('NewNotification', (data) => {
-            this.getNotiRealTime(data.notification);
-            this.showToast(data.notification)
-          }); 
-          
-        clearInterval(intervalId);
-      }
-    }, 100);
+    Echo.private('notification_realtime_for_user_' + this.user[0].id)
+        .listen('NewNotification', (data) => {
+          this.getNotiRealTime(data.notification);
+          this.showToast(data.notification)
+        }); 
   },
 
   methods: {
@@ -39,7 +35,7 @@ export default {
         maxToasts: 16,
         newestOnTop: true,
         position: "bottom-center",
-        timeout: 4000,
+        timeout: 5000,
         closeOnClick: true,
         pauseOnFocusLoss: true,
         pauseOnHover: true,
@@ -52,7 +48,7 @@ export default {
         rtl: false
       };
 
-      this.$toast(notification.content, option);
+      this.$toast.success(notification.content, option);
     }
   }
 }

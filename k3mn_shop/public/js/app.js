@@ -2085,6 +2085,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Header_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Header.vue */ "./resources/js/components/Header.vue");
 /* harmony import */ var _modals_ModalLogin_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modals/ModalLogin.vue */ "./resources/js/components/modals/ModalLogin.vue");
 /* harmony import */ var _notifications_GetNotificatoins_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./notifications/GetNotificatoins.vue */ "./resources/js/components/notifications/GetNotificatoins.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2116,7 +2123,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
+
 
 
 
@@ -2125,7 +2132,10 @@ __webpack_require__.r(__webpack_exports__);
     Header: _Header_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     ModalLogin: _modals_ModalLogin_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
     GetNotifications: _notifications_GetNotificatoins_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
-  }
+  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_3__["mapGetters"])({
+    isLogin: 'user_isset'
+  }))
 });
 
 /***/ }),
@@ -3912,6 +3922,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _modals_ModalLogin_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modals/ModalLogin.vue */ "./resources/js/components/modals/ModalLogin.vue");
+/* harmony import */ var _NotificationMenu_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./NotificationMenu.vue */ "./resources/js/components/NotificationMenu.vue");
+/* harmony import */ var _notifications_GetNotificatoins_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./notifications/GetNotificatoins.vue */ "./resources/js/components/notifications/GetNotificatoins.vue");
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -4037,18 +4049,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
-    ModalLogin: _modals_ModalLogin_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    ModalLogin: _modals_ModalLogin_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    NotificationMenu: _NotificationMenu_vue__WEBPACK_IMPORTED_MODULE_3__["default"],
+    GetNotifications: _notifications_GetNotificatoins_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
   },
   data: function data() {
     return {
       topProduct: [],
       categories: [],
       hotProduct: [],
-      show_acc: false
+      show_acc: false,
+      showNotification: false
     };
   },
   created: function created() {
@@ -4079,7 +4102,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }))();
   },
   computed: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])({
-    user: 'info_user'
+    user: 'info_user',
+    numberNewNotis: 'numberNewNotis',
+    isLogin: 'user_isset'
   })), {}, {
     set_user: function set_user() {
       if (this.user.length == 0) {
@@ -4105,10 +4130,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     goToProduct: function goToProduct(id) {
       this.$router.push('/product/' + id);
+    },
+    showNotificationMenu: function showNotificationMenu() {
+      this.showNotification = !this.showNotification;
+      this.clickNotificationsMenu();
+    },
+    closeNotificationMenu: function closeNotificationMenu() {
+      if (this.showNotification) {
+        this.showNotification = false;
+      }
+
+      return;
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapActions"])({
     getUser: 'featchAPIGetUser',
-    showModalLogin: 'showLogin'
+    showModalLogin: 'showLogin',
+    clickNotificationsMenu: 'clickMenuNotifications'
   })),
   watch: {},
   filters: {
@@ -4231,16 +4268,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     var _this = this;
 
     this.getListNotis();
-    var intervalId = setInterval(function () {
-      if (_this.user.length !== 0) {
-        Echo["private"]('notification_realtime_for_user_' + _this.user[0].id).listen('NewNotification', function (data) {
-          _this.getNotiRealTime(data.notification);
+    Echo.leave('notification_realtime_for_user_' + this.user[0].id);
+    Echo["private"]('notification_realtime_for_user_' + this.user[0].id).listen('NewNotification', function (data) {
+      _this.getNotiRealTime(data.notification);
 
-          _this.showToast(data.notification);
-        });
-        clearInterval(intervalId);
-      }
-    }, 100);
+      _this.showToast(data.notification);
+    });
   },
   methods: _objectSpread(_objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
     getListNotis: 'fetchNotifications',
@@ -4252,7 +4285,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         maxToasts: 16,
         newestOnTop: true,
         position: "bottom-center",
-        timeout: 4000,
+        timeout: 5000,
         closeOnClick: true,
         pauseOnFocusLoss: true,
         pauseOnHover: true,
@@ -4264,7 +4297,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         icon: true,
         rtl: false
       };
-      this.$toast(notification.content, option);
+      this.$toast.success(notification.content, option);
     }
   })
 });
@@ -8801,7 +8834,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "/*header*/\n.navbar[data-v-2ac2c897] {\r\n    display: flex;\r\n    align-items: center;\r\n    padding: 20px;\n}\nnav[data-v-2ac2c897] {\r\n    flex: 1;\r\n    text-align: right;\n}\nnav ul[data-v-2ac2c897] {\r\n    display: inline-block;\r\n    list-style-type: none;\n}\nnav ul li[data-v-2ac2c897] {\r\n    display: inline-block;\r\n    margin-right: 20px;\n}\na[data-v-2ac2c897] {\r\n    text-decoration: none;\r\n    color: rgb(32, 28, 28);\n}\n.container[data-v-2ac2c897] {\r\n    max-width: 1300px;\r\n    margin: auto;\r\n    padding-left: 25px;\r\n    padding-right: 25px;\n}\n.row[data-v-2ac2c897] {\r\n    display: flex;\r\n    align-items: center;\r\n    flex-wrap: wrap;\r\n    justify-content: space-around;\n}\n.header[data-v-2ac2c897] {\r\n    background: radial-gradient(#eae1eb, #b092b3)\n}\n.small-container[data-v-2ac2c897] {\r\n    max-width: 1100px;\r\n    margin: auto;\r\n    padding-left: 25px;\r\n    padding-right: 25px;\n}\nnav a[data-v-2ac2c897]:hover {\r\n    border-bottom: 2px solid rgb(32, 28, 28);\n}\n.navbar a[data-v-2ac2c897] {\r\n    margin-right: 20px;\n}\n.navbar nav a[data-v-2ac2c897] {\r\n    margin-right: 0;\n}\n.avatar[data-v-2ac2c897] {\r\n    vertical-align: middle;\r\n    width: 40px;\r\n    height: 40px;\r\n    border-radius: 50%;\r\n    cursor: pointer;\n}\n.account[data-v-2ac2c897] {\r\n    position: relative;\r\n    display: inline-block;\n}\n.dropdown-menu[data-v-2ac2c897] {\r\n    margin-top: 5px;\r\n    display: block;\r\n    position: absolute;\r\n    background-color: #f1f1f1;\r\n    min-width: 120px;\r\n    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);\r\n    z-index: 1;\n}\n.dropdown-menu a[data-v-2ac2c897] {\r\n    display: block;\r\n    text-decoration: none;\r\n    color: rgb(32, 28, 28);\r\n    padding: 12px 16px;\r\n    margin-right: 0;\n}\n.dropdown-menu a[data-v-2ac2c897]:hover {\r\n    background-color: #ddd;\n}\n.dropdown-menu p[data-v-2ac2c897] {\r\n    display: block;\r\n    text-decoration: none;\r\n    color: rgb(32, 28, 28);\r\n    padding: 12px 16px;\r\n    margin-right: 0;\n}\r\n\r\n\r\n/*footer*/\n.footer[data-v-2ac2c897] {\r\n    background: #000;\r\n    color: #8a8a8a;\r\n    font-size: 15px;\r\n    padding: 60px 0 20px;\n}\r\n\r\n\r\n/*home*/\np[data-v-2ac2c897] {\r\n    color: red;\n}\n.col-2[data-v-2ac2c897] {\r\n    flex-basis: 50%;\r\n    min-width: 300px;\n}\n.col-2 img[data-v-2ac2c897] {\r\n    max-width: 100%;\r\n    padding: 50px 0;\n}\n.col-2 h1[data-v-2ac2c897] {\r\n    font-size: 50px;\r\n    line-height: 60px;\r\n    margin: 25px 0;\n}\n.btn[data-v-2ac2c897] {\r\n    display: inline-block;\r\n    background: rgb(76, 76, 171);\r\n    color: white;\r\n    padding: 8px 30px;\r\n    margin: 30px 0;\r\n    border-radius: 60px;\r\n    transition: background 0.5s\n}\n.btn[data-v-2ac2c897]:hover {\r\n    background: #64C9DF;\n}\n.header .row[data-v-2ac2c897] {\r\n    margin-top: 70px;\n}\n.categories[data-v-2ac2c897] {\r\n    margin: 70px 0;\n}\n.col-3[data-v-2ac2c897] {\r\n    flex-basis: 30%;\r\n    min-width: 250px;\r\n    margin-bottom: 30px;\n}\n.col-3 img[data-v-2ac2c897] {\r\n    width: 100%;\n}\n.col-4[data-v-2ac2c897] {\r\n    flex-basis: 20%;\r\n    padding: 10px;\r\n    min-width: 200px;\r\n    margin-bottom: 50px;\r\n    transition: transform 0.5s\n}\n.col-4 img[data-v-2ac2c897] {\r\n    width: 100%;\n}\n.title[data-v-2ac2c897] {\r\n    text-align: center;\r\n    margin: 0 auto 80ps;\r\n    position: relative;\r\n    line-height: 60px;\r\n    color: rgb(147, 35, 147);\n}\nh4[data-v-2ac2c897] {\r\n    color: #555;\r\n    font-weight: normal;\n}\n.col-4 p[data-v-2ac2c897] {\r\n    font-size: 15px;\n}\n.col-4[data-v-2ac2c897]:hover {\r\n    transform: translateY(-5px);\n}\r\n\r\n\r\n/* PopUp Login */\n.modal-login .modal-mask[data-v-2ac2c897] {\r\n    position: fixed;\r\n    z-index: 9998;\r\n    top: 0;\r\n    left: 0;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, .5);\r\n    display: table;\r\n    transition: opacity .3s ease;\n}\n.modal-login .modal-wrapper[data-v-2ac2c897] {\r\n    display: table-cell;\r\n    vertical-align: middle;\n}\n.modal-login .modal-container[data-v-2ac2c897] {\r\n    width: 300px;\r\n    margin: 0px auto;\r\n    padding: 20px 30px;\r\n    background-color: #fff;\r\n    border-radius: 2px;\r\n    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\r\n    transition: all .3s ease;\r\n    font-family: Helvetica, Arial, sans-serif;\n}\n.modal-login .modal-button-exit[data-v-2ac2c897] {\r\n    float: right;\n}\n.modal-login .modal-body[data-v-2ac2c897] {\r\n    margin: 20px 0;\n}\n.modal-login .login-error[data-v-2ac2c897] {\r\n    color: red;\n}", ""]);
+exports.push([module.i, "/*header*/\n.navbar[data-v-2ac2c897] {\r\n    display: flex;\r\n    align-items: center;\r\n    padding: 20px;\n}\nnav[data-v-2ac2c897] {\r\n    flex: 1;\r\n    text-align: right;\n}\nnav ul[data-v-2ac2c897] {\r\n    display: inline-block;\r\n    list-style-type: none;\n}\nnav ul li[data-v-2ac2c897] {\r\n    display: inline-block;\r\n    margin-right: 20px;\n}\na[data-v-2ac2c897] {\r\n    text-decoration: none;\r\n    color: rgb(32, 28, 28);\n}\n.container[data-v-2ac2c897] {\r\n    max-width: 1300px;\r\n    margin: auto;\r\n    padding-left: 25px;\r\n    padding-right: 25px;\n}\n.row[data-v-2ac2c897] {\r\n    display: flex;\r\n    align-items: center;\r\n    flex-wrap: wrap;\r\n    justify-content: space-around;\n}\n.header[data-v-2ac2c897] {\r\n    background: radial-gradient(#eae1eb, #b092b3)\n}\n.small-container[data-v-2ac2c897] {\r\n    max-width: 1100px;\r\n    margin: auto;\r\n    padding-left: 25px;\r\n    padding-right: 25px;\n}\nnav a[data-v-2ac2c897]:hover {\r\n    border-bottom: 2px solid rgb(32, 28, 28);\n}\n.navbar a[data-v-2ac2c897] {\r\n    margin-right: 20px;\n}\n.navbar nav a[data-v-2ac2c897] {\r\n    margin-right: 0;\n}\n.avatar[data-v-2ac2c897] {\r\n    vertical-align: middle;\r\n    width: 40px;\r\n    height: 40px;\r\n    border-radius: 50%;\r\n    cursor: pointer;\n}\n.account[data-v-2ac2c897] {\r\n    position: relative;\r\n    display: inline-block;\n}\n.dropdown-menu[data-v-2ac2c897] {\r\n    margin-top: 5px;\r\n    display: block;\r\n    position: absolute;\r\n    background-color: #f1f1f1;\r\n    min-width: 120px;\r\n    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);\r\n    z-index: 1;\n}\n.dropdown-menu a[data-v-2ac2c897] {\r\n    display: block;\r\n    text-decoration: none;\r\n    color: rgb(32, 28, 28);\r\n    padding: 12px 16px;\r\n    margin-right: 0;\n}\n.dropdown-menu a[data-v-2ac2c897]:hover {\r\n    background-color: #ddd;\n}\n.dropdown-menu p[data-v-2ac2c897] {\r\n    display: block;\r\n    text-decoration: none;\r\n    color: rgb(32, 28, 28);\r\n    padding: 12px 16px;\r\n    margin-right: 0;\n}\r\n\r\n\r\n/*footer*/\n.footer[data-v-2ac2c897] {\r\n    background: #000;\r\n    color: #8a8a8a;\r\n    font-size: 15px;\r\n    padding: 60px 0 20px;\n}\r\n\r\n\r\n/*home*/\np[data-v-2ac2c897] {\r\n    color: red;\n}\n.col-2[data-v-2ac2c897] {\r\n    flex-basis: 50%;\r\n    min-width: 300px;\n}\n.col-2 img[data-v-2ac2c897] {\r\n    max-width: 100%;\r\n    padding: 50px 0;\n}\n.col-2 h1[data-v-2ac2c897] {\r\n    font-size: 50px;\r\n    line-height: 60px;\r\n    margin: 25px 0;\n}\n.btn[data-v-2ac2c897] {\r\n    display: inline-block;\r\n    background: rgb(76, 76, 171);\r\n    color: white;\r\n    padding: 8px 30px;\r\n    margin: 30px 0;\r\n    border-radius: 60px;\r\n    transition: background 0.5s\n}\n.btn[data-v-2ac2c897]:hover {\r\n    background: #64C9DF;\n}\n.header .row[data-v-2ac2c897] {\r\n    margin-top: 70px;\n}\n.categories[data-v-2ac2c897] {\r\n    margin: 70px 0;\n}\n.col-3[data-v-2ac2c897] {\r\n    flex-basis: 30%;\r\n    min-width: 250px;\r\n    margin-bottom: 30px;\n}\n.col-3 img[data-v-2ac2c897] {\r\n    width: 100%;\n}\n.col-4[data-v-2ac2c897] {\r\n    flex-basis: 20%;\r\n    padding: 10px;\r\n    min-width: 200px;\r\n    margin-bottom: 50px;\r\n    transition: transform 0.5s\n}\n.col-4 img[data-v-2ac2c897] {\r\n    width: 100%;\n}\n.title[data-v-2ac2c897] {\r\n    text-align: center;\r\n    margin: 0 auto 80ps;\r\n    position: relative;\r\n    line-height: 60px;\r\n    color: rgb(147, 35, 147);\n}\nh4[data-v-2ac2c897] {\r\n    color: #555;\r\n    font-weight: normal;\n}\n.col-4 p[data-v-2ac2c897] {\r\n    font-size: 15px;\n}\n.col-4[data-v-2ac2c897]:hover {\r\n    transform: translateY(-5px);\n}\r\n\r\n\r\n/* PopUp Login */\n.modal-login .modal-mask[data-v-2ac2c897] {\r\n    position: fixed;\r\n    z-index: 9998;\r\n    top: 0;\r\n    left: 0;\r\n    width: 100%;\r\n    height: 100%;\r\n    background-color: rgba(0, 0, 0, .5);\r\n    display: table;\r\n    transition: opacity .3s ease;\n}\n.modal-login .modal-wrapper[data-v-2ac2c897] {\r\n    display: table-cell;\r\n    vertical-align: middle;\n}\n.modal-login .modal-container[data-v-2ac2c897] {\r\n    width: 300px;\r\n    margin: 0px auto;\r\n    padding: 20px 30px;\r\n    background-color: #fff;\r\n    border-radius: 2px;\r\n    box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\r\n    transition: all .3s ease;\r\n    font-family: Helvetica, Arial, sans-serif;\n}\n.modal-login .modal-button-exit[data-v-2ac2c897] {\r\n    float: right;\n}\n.modal-login .modal-body[data-v-2ac2c897] {\r\n    margin: 20px 0;\n}\n.modal-login .login-error[data-v-2ac2c897] {\r\n    color: red;\n}\r\n\r\n/* style menu notification */\n.pointer[data-v-2ac2c897] {\r\n    cursor: pointer;\n}\nimg.pointer[data-v-2ac2c897] {\r\nmargin-right: 15px;\n}\ndiv.container_notification_menu[data-v-2ac2c897] {\r\nposition: relative;\n}\n.notification_menu[data-v-2ac2c897] {\r\nposition: absolute;\r\ntop: 50px;\r\nleft: -280px;\n}\ndiv.numbers_new_noti[data-v-2ac2c897] {\r\nbackground-color: red;\r\ncolor: white;\r\ndisplay: inline-block;\r\nwidth: 18px;\r\nheight: 18px;\r\nposition: absolute;\r\nborder-radius: 50%;\r\nleft: -8px;\r\ntop: -8px;\r\ntext-align: center;\r\nfont-weight: bold;\r\nfont-size: 17px;\n}", ""]);
 
 // exports
 
@@ -8896,7 +8929,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, "/*reset CSS*/\n*[data-v-bf929b56] {\r\n\tmargin: 0px;\r\n\tpadding: 0px;\r\n\tbox-sizing: border-box;\r\n\toutline: none;\r\n\ttext-decoration: none;\n}\nli[data-v-bf929b56] {\r\n\tlist-style: none;\n}\r\n\r\n/*style*/\ndiv.notification_menu[data-v-bf929b56] {\r\n\tdisplay: block;\r\n\theight: 350px;\r\n\twidth: 300px;\r\n\tborder: 1px solid black;\r\n\tborder-radius: 5px;\r\n\tbackground-color: #1df795f5;\r\n  overflow-y: auto;\n}\ndiv.notification_item[data-v-bf929b56] {\r\n\tmargin: 20px 10px;\r\n\tpadding: 10px 10px;\r\n\tborder-radius: 3px;\r\n\tcursor: pointer;\n}\ndiv.watched[data-v-bf929b56] {\r\n\tbackground-color: rgb(255, 255, 255);\n}\ndiv.not_watched[data-v-bf929b56] {\r\n\tbackground-color: rgb(221, 220, 220);\n}\r\n", ""]);
+exports.push([module.i, "/*reset CSS*/\n*[data-v-bf929b56] {\r\n\tmargin: 0px;\r\n\tpadding: 0px;\r\n\tbox-sizing: border-box;\r\n\toutline: none;\r\n\ttext-decoration: none;\n}\nli[data-v-bf929b56] {\r\n\tlist-style: none;\n}\r\n\r\n/*style*/\ndiv.notification_menu[data-v-bf929b56] {\r\n\tdisplay: block;\r\n\theight: 350px;\r\n\twidth: 300px;\r\n\tborder: none;\r\n\tborder-radius: 5px;\r\n\tbackground-color: #04df96f3;\r\n  overflow-y: auto;\n}\ndiv.notification_item[data-v-bf929b56] {\r\n\tmargin: 20px 10px;\r\n\tpadding: 10px 10px;\r\n\tborder-radius: 3px;\r\n\tcursor: pointer;\n}\ndiv.watched[data-v-bf929b56] {\r\n\tbackground-color: rgb(255, 255, 255);\n}\ndiv.not_watched[data-v-bf929b56] {\r\n\tbackground-color: rgba(129, 126, 126, 0.89);\r\n\tcolor: white;\n}\r\n", ""]);
 
 // exports
 
@@ -46555,9 +46588,7 @@ var render = function() {
       _vm._v(" "),
       _c("ModalLogin"),
       _vm._v(" "),
-      _c("GetNotifications"),
-      _vm._v(" "),
-      _c("notifications", { attrs: { position: "top center" } }),
+      _vm.isLogin ? _c("GetNotifications") : _vm._e(),
       _vm._v(" "),
       _c("router-view"),
       _vm._v(" "),
@@ -49180,6 +49211,44 @@ var render = function() {
                       }
                     })
                   ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.set_user == true
+                ? _c(
+                    "div",
+                    {
+                      staticClass: "container_notification_menu",
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          return _vm.showNotificationMenu($event)
+                        }
+                      }
+                    },
+                    [
+                      _vm.numberNewNotis > 0
+                        ? _c(
+                            "div",
+                            { staticClass: "numbers_new_noti pointer" },
+                            [_vm._v(_vm._s(_vm.numberNewNotis))]
+                          )
+                        : _vm._e(),
+                      _vm._v(" "),
+                      _c("img", {
+                        staticClass: "pointer",
+                        attrs: {
+                          src: __webpack_require__(/*! ../images/notification.png */ "./resources/js/images/notification.png"),
+                          width: "22px",
+                          height: "22px"
+                        }
+                      }),
+                      _vm._v(" "),
+                      _vm.isLogin ? _c("GetNotifications") : _vm._e(),
+                      _vm._v(" "),
+                      _vm.showNotification ? _c("NotificationMenu") : _vm._e()
+                    ],
+                    1
+                  )
                 : _vm._e(),
               _vm._v(" "),
               _c("div", { staticClass: "account" }, [

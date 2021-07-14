@@ -24,7 +24,7 @@
           <img class="pointer" src="../images/notification.png" width="22px" height="22px">
 
           <NotificationMenu v-if="showNotification"/>
-
+  
         </div>
         <div class="account">
             <img v-if="set_user == true && user[0].avatar == null" class="avatar" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS1CfdSF5Sdj53VRzQtJe8dgcoDLSyH5tK_sGgyhlfs91uiPe4FAg0u_nsBPDIGovorvso&usqp=CAU" width="30px" height="30px" @click="show_acc = !show_acc">
