@@ -18,8 +18,18 @@ export default {
    
     Echo.private('notification_realtime_for_user_' + this.user[0].id)
         .listen('NewNotification', (data) => {
-          this.getNotiRealTime(data.notification);
-          this.showToast(data.notification)
+          const newNoti = {
+            id: data.notification.id,
+            type: data.notification.type,
+            content: data.notification.content,
+            watched_in_menu: data.statusNotification.watched_in_menu,
+            watched_detail: data.statusNotification.watched_detail,
+            created_at: data.notification.created_at,
+            updated_at: data.notification.updated_at
+          };
+          console.log(newNoti);
+          this.getNotiRealTime(newNoti);
+          this.showToast(newNoti)
         }); 
   },
 

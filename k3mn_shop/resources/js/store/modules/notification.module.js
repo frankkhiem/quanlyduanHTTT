@@ -26,6 +26,14 @@ const mutations = {
 
   watchedNewNotifications: (state) => {
     state.numberNewNotifications = 0;
+  },
+
+  watchedDetailNotiById: (state, id) => {
+    if (state.notifications.length !== 0) {
+      state.notifications.find(function(noti) {
+        return noti.id === id;
+      }).watched_detail = true;
+    }
   }
 }
 
@@ -46,6 +54,10 @@ const actions = {
     if( state.numberNewNotifications === 0 ) return;
     commit('watchedNewNotifications');
     await axios.get('/api/watched-new-notifications');
+  },
+
+  watchedDetailNotification: ({commit}, id) => {
+    commit('watchedDetailNotiById', id);
   }
 }
 

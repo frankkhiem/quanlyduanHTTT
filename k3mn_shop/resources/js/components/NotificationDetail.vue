@@ -25,10 +25,10 @@ export default {
           .then(response => {
             this.notification = response.data;
             // console.log(this.notification);
-            this.reloadNoti();
+            this.watchedDetailNoti(this.notification.id);
           })
           .catch(function(){
-            console.log('Loi lay thong bao');
+            console.log('Loi lay thong bao......');
           });
     },
 
@@ -53,7 +53,7 @@ export default {
     },
 
     ...mapActions({
-      reloadNoti: 'fetchNotifications'
+      watchedDetailNoti: 'watchedDetailNotification'
     }),
   },
 

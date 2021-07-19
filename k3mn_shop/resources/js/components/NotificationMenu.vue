@@ -8,7 +8,7 @@
         class="notification_item" 
         v-for="(item, index) in notifications" 
         :key="index" 
-        :class="item.is_view_detail ? 'watched' : 'not_watched'"
+        :class="item.watched_detail ? 'watched' : 'not_watched'"
         @click="goToDetail(item)"
       >
         <p>Thông báo: {{ item.content }}</p>

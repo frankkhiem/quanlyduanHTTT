@@ -8,6 +8,7 @@ use App\Models\Order;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Events\NewNotification;
+use App\Models\UserNotification;
 
 class AdminOrderController extends Controller
 {
@@ -62,13 +63,19 @@ class AdminOrderController extends Controller
             ]);
         $user_id = Order::find($id)->user_id;
         $notification = new Notification([
-            'user_id' => $user_id,
             'content' => "Đơn hàng #$id của bạn đã được xác nhận và đang trong quá trình vận chuyển",
+            'type' => 'only user',
         ]);
         $notification->save();
 
+        $statusNoti = new UserNotification([
+            'user_id' => $user_id,
+            'notification_id' => $notification->id,
+        ]);
+        $statusNoti->save();
+
         // Tạo sự kiện có thông báo mới để realtime tới client
-        broadcast(new NewNotification($notification))->toOthers();
+        broadcast(new NewNotification($notification, $statusNoti))->toOthers();
 
         return redirect()->route('listConfirmOrder');
     }
@@ -86,7 +93,13 @@ class AdminOrderController extends Controller
         ]);
         $notification->save();
 
-        broadcast(new NewNotification($notification))->toOthers();
+        $statusNoti = new UserNotification([
+            'user_id' => $user_id,
+            'notification_id' => $notification->id,
+        ]);
+        $statusNoti->save();
+
+        broadcast(new NewNotification($notification, $statusNoti))->toOthers();
         return redirect()->route('listShippedOrder');
     }
 }

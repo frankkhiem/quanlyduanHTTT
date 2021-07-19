@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Notification extends Model
 {
     protected $fillable = [
-        'user_id', 'content', 'is_watched', 'is_view_detail'
+        'content', 'type',
     ];
+
+    public function user_notifications() {
+        return $this->hasMany('App\Models\UserNotification');
+    }
 }

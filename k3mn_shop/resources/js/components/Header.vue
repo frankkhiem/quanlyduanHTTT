@@ -19,7 +19,7 @@
           </ul>
         </nav>
         <router-link to="/cart" v-if="set_user == true"><img src="../images/Cart.png" width="30px" height="30px"></router-link>
-        <div class="container_notification_menu" v-if="set_user == true" @click.prevent="showNotificationMenu">
+        <div class="container_notification_menu" @click.prevent="showNotificationMenu">
           <div class="numbers_new_noti pointer" v-if="numberNewNotis > 0">{{ numberNewNotis }}</div>
           <img class="pointer" src="../images/notification.png" width="22px" height="22px">
 

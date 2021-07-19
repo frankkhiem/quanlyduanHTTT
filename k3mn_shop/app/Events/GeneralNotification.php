@@ -3,7 +3,6 @@
 namespace App\Events;
 
 use App\Models\Notification;
-use App\Models\UserNotification;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -12,7 +11,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewNotification implements ShouldBroadcast
+class GeneralNotification implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -21,16 +20,13 @@ class NewNotification implements ShouldBroadcast
      *
      * @return void
      */
+    public $generalNoti;
 
-    public $notification;
-    public $statusNotification;
-
-    public function __construct(Notification $noti, UserNotification $status)
+    public function __construct(Notification $generalNoti)
     {
         //
-        $this->notification = $noti;
-        $this->statusNotification = $status;
-    }   
+        $this->generalNoti = $generalNoti;
+    }
 
     /**
      * Get the channels the event should broadcast on.
@@ -39,6 +35,6 @@ class NewNotification implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('notification_realtime_for_user_'.$this->statusNotification->user_id);
+        return new Channel('general-notification');
     }
 }

@@ -75,6 +75,10 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     Route::get('/product/{product_id}/images', 'Admin\FileUploadController@createImagesProduct')->name('createImagesProduct');});
     Route::post('/product/{product_id}/images', 'Admin\FileUploadController@fileUpload')->name('imageUploadProduct');
 
+    // Các route quản trị thông báo tới user
+    Route::post('/notification', 'Admin\AdminNotificationController@createNewNotification')->name('createNewNotification');
+
+
 // Các route chuyển sang VueJs       
 Route::get('/logout', 'HomeController@index')->name('home');
 Route::get('test/profile', function(){

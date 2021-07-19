@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateNotificationsTable extends Migration
+class CreateUserNotificationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateNotificationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('notifications', function (Blueprint $table) {
+        Schema::create('user_notifications', function (Blueprint $table) {
             $table->id();
-            $table->string('content');
-            $table->enum('type', ['only user', 'all user']);
+            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('notification_id');
+            $table->boolean('watched_in_menu')->default(false);
+            $table->boolean('watched_detail')->default(false);
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateNotificationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('notifications');
+        Schema::dropIfExists('user_notifications');
     }
 }

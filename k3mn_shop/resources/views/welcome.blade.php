@@ -12,6 +12,7 @@
     <body>
         <div id="app">
             <router-view></router-view>
+            <general-notification></general-notification>
         </div>
         </body>
     <script src="http://localhost:6001/socket.io/socket.io.js"></script>
