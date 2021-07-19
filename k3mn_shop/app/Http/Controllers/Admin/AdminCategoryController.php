@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\CategoriesImport;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminCategoryController extends Controller
 {
@@ -117,6 +119,15 @@ class AdminCategoryController extends Controller
             $product->save();
         }
         Category::where('id', $id)->delete();
+        return redirect()->route('adminCategory.index');
+    }
+
+    public function fileImport(Request $request) {
+        $request->validate([
+            'file-import-categories' => 'required',
+            'file-import-categories.*' => 'mimes:xlsx,xls,csv'
+        ]);
+        Excel::import(new CategoriesImport, request()->file('file-import-categories'));
         return redirect()->route('adminCategory.index');
     }
 }

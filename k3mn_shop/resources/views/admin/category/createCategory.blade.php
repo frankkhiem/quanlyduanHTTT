@@ -37,10 +37,39 @@
       <!-- /.card-body -->
     </div>
   </form>
+  <br>
+
+  <!-- Tạo danh mục bằng file CSV/Excel -->
+  <form action="{{ route('importCategoriesByFile') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="card card-primary">
+      <div class="card card-primary">
+        <div class="card-header">
+          <h1 class="card-title">Tạo danh mục sản phẩm bằng file</h1>
+        </div>
+        <div class="card-body col-md-8">
+          <div id="file-input">
+            <input type="file" name="file-import-categories" id="customFile">
+            <!-- <label for="customFile">Choose file</label> -->
+          </div>
+          <br>
+          <div>          
+            <button type="submit" class="btn btn-success float-right">Xác nhận</button>
+            <a href="{{ route('adminCategory.index') }}" class="btn btn-danger float-right">Hủy bỏ</a>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </form>
 @stop
 
 @section('css')
-    <!-- <link rel="stylesheet" href="/css/admin_custom.css"> -->
+  <!-- <link rel="stylesheet" href="/css/admin_custom.css"> -->
+<style>
+  #file-input {
+    margin-bottom: 20px;
+  }
+</style>
 @stop
 
 @section('js')
