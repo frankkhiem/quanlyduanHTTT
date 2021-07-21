@@ -78,8 +78,12 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     // Các route quản trị thông báo tới user
     Route::post('/notification', 'Admin\AdminNotificationController@createNewNotification')->name('createNewNotification');
 
-    //  Các route quản trị thêm không nằm trong resource tạo sẵn
+    // Các route quản trị thêm không nằm trong resource tạo sẵn
+    // Với category
     Route::post('/categories/file-import', 'Admin\AdminCategoryController@fileImport')->name('importCategoriesByFile');
+    // Với product
+    Route::get('/products/file-import', 'Admin\AdminProductController@viewFileImport')->name('viewFileImportProducts');
+    Route::post('/products/file-import', 'Admin\AdminProductController@fileImport')->name('importProductsByFile');
 
 });
 

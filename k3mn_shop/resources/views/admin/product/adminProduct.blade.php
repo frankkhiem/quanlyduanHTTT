@@ -10,7 +10,8 @@
     <!-- Nội dung chính của trang quản trị -->
     <div class="card">
         <div class="card-header">
-            <a href=" {{ route('adminProduct.create') }} " class="btn btn-success" >Tạo mới</a>
+            <a href=" {{ route('adminProduct.create') }} " class="btn btn-outline-success" >Tạo mới</a>
+            <a href=" {{ route('viewFileImportProducts') }} " class="btn btn-outline-primary" id="btn-file-import">Nhập bằng file</a>
             <div class="card-tools">
                 <ul class="pagination pagination-sm m-0 float-right">
                     {{ $products->links() }}
@@ -86,6 +87,11 @@
 
 @section('css')
     <!-- <link rel="stylesheet" href="/css/admin_custom.css"> -->
+    <style>
+        #btn-file-import {
+            margin-left: 20px;
+        }
+    </style>
 @stop
 
 @section('js')

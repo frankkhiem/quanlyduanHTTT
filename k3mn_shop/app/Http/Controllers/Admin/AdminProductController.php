@@ -3,10 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\ProductsImport;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Category;
 use App\Models\StatusProduct;
+use ZipArchive;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminProductController extends Controller
 {
@@ -190,6 +195,48 @@ class AdminProductController extends Controller
     {
         //
         Product::where('id', $id)->delete();
+        return redirect()->route('adminProduct.index');
+    }
+
+    // Hàm xử lý import các product thông qua file zip
+    public function viewFileImport() {
+        return view('admin.product.fileImportProducts');
+    }
+
+    public function fileImport(Request $request) {
+        $request->validate([
+            'file-import-products' => 'required|mimes:zip,rar',
+        ]);
+        $fileName = $request->file('file-import-products')->getClientOriginalName();
+        $pathZipFile = $request->file('file-import-products')->storeAs('temp', $fileName);
+        
+        // Giải nén file zip sau khi upload
+        $zip = new ZipArchive();
+        if ( $zip->open( storage_path('app\\'.$pathZipFile) ) ) {
+            $zip->extractTo( storage_path('app\\temp\\'.pathinfo($fileName, PATHINFO_FILENAME)) );
+            $zip->close();
+            // Đường dẫn tới thư mục giải nén
+            $pathDirExtractAbsolute = storage_path("app\\temp\\".pathinfo($fileName, PATHINFO_FILENAME));
+            $pathDirExtractRelative = 'temp\\'.pathinfo($fileName, PATHINFO_FILENAME);
+            // echo('Extract successfully!!!!!!');
+            // dd($pathDirExtract);
+        } else {
+            echo('Extract fail!!!!!!');
+        }
+        
+        $filesInDir = File::files($pathDirExtractAbsolute);
+        foreach ( $filesInDir as $file ) {
+            $extension = pathinfo($file, PATHINFO_EXTENSION);
+            if ( $extension === "csv" ) {
+                $csvFile = $file;
+            }
+        }
+        
+        // csvFile là file csv lấy được sau khi giải nén
+        Excel::import(new ProductsImport( $pathDirExtractRelative ), $csvFile);
+        // Import xong xóa file zip tải lên và các file giải nén
+        Storage::deleteDirectory('temp');
+        
         return redirect()->route('adminProduct.index');
     }
 }

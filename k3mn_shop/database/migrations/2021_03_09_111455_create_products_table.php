@@ -17,13 +17,12 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id')->nullable();
             $table->string('name');
-            $table->string('image')->nullable();
+            $table->text('image')->nullable();
             $table->string('short_desc');
             $table->text('full_desc');
             $table->bigInteger('price');
             $table->unsignedBigInteger('status_product_id');
-            $table->boolean('star')
-                    ->default(false);
+            $table->boolean('star')->default(false);
             $table->timestamps();
             $table->softDeletes();
         });
