@@ -84,7 +84,8 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     // Với product
     Route::get('/products/file-import', 'Admin\AdminProductController@viewFileImport')->name('viewFileImportProducts');
     Route::post('/products/file-import', 'Admin\AdminProductController@fileImport')->name('importProductsByFile');
-
+    // Với thông số kỹ thuật của product
+    Route::post('info-products/file-import', 'Admin\AdminInfoProductController@fileImport')->name('importInfoProductsByFile');
 });
 
 // Các route chuyển sang VueJs       

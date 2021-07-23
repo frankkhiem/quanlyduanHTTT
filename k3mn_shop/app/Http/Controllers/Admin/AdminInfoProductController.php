@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\InfoProductsImport;
 use Illuminate\Http\Request;
 use App\Models\InfoProduct;
 use App\Models\Product;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminInfoProductController extends Controller
 {
@@ -57,5 +59,14 @@ class AdminInfoProductController extends Controller
                             'information' => $request->imformation
                         ]);
         return redirect()->route('listInfoProduct', $product_id);
+    }
+
+    public function fileImport(Request $request) {
+        $request->validate([
+            'file-import-info-products' => 'required',
+            'file-import-info-products.*' => 'mimes:xlsx,xls,csv'
+        ]);
+        Excel::import(new InfoProductsImport, request()->file('file-import-info-products'));
+        return redirect()->route('adminProduct.index');
     }
 }

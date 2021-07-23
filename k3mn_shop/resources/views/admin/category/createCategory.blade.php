@@ -48,6 +48,17 @@
           <h1 class="card-title">Tạo danh mục sản phẩm bằng file</h1>
         </div>
         <div class="card-body col-md-8">
+
+          @if ( session('error') )
+          <div class="alert alert-danger">
+            <p>{{ session('error') }}</p>
+          </div>
+          @elseif ( session('message') )
+          <div class="alert alert-success">
+            <p>{{ session('message') }}</p>
+          </div>
+          @endif
+
           <div id="file-input">
             <input type="file" name="file-import-categories" id="customFile">
             <!-- <label for="customFile">Choose file</label> -->
@@ -73,5 +84,5 @@
 @stop
 
 @section('js')
-  
+
 @stop

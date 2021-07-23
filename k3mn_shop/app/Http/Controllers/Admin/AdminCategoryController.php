@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Imports\CategoriesImport;
+use App\Jobs\CategoriesImport as JobsCategoriesImport;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Maatwebsite\Excel\Facades\Excel;
 
 class AdminCategoryController extends Controller
 {
@@ -127,7 +127,13 @@ class AdminCategoryController extends Controller
             'file-import-categories' => 'required',
             'file-import-categories.*' => 'mimes:xlsx,xls,csv'
         ]);
-        Excel::import(new CategoriesImport, request()->file('file-import-categories'));
-        return redirect()->route('adminCategory.index');
+        $fileName = $request->file('file-import-categories')->getClientOriginalName();
+        if ( $fileName !== 'categories_data.csv' ) {
+            return redirect()->back()->with('error', "Tên file không hợp lệ: Yêu cầu 'categories_data.csv' không phải '$fileName'");
+        }
+        $filePath = $request->file('file-import-categories')->storeAs('temp', $fileName);
+        JobsCategoriesImport::dispatch( $filePath );
+        
+        return redirect()->back()->with('message', "Tệp dữ liệu đang được xử lý");
     }
 }
