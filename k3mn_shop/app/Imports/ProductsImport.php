@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\File;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Illuminate\Support\Facades\Storage;
+use App\Events\NewImportFileStatus;
 
 class ProductsImport implements ToCollection, WithHeadingRow
 {
@@ -16,17 +17,27 @@ class ProductsImport implements ToCollection, WithHeadingRow
     * @param Collection $collection
     */
     // đường dẫn tới thư mục giải nén từ file zip chứa thư mục ảnh của sản phẩm
-    public $pathDirImages;
+    private $pathDirImages;
+    private $percentageStart = 0;
+    private $percentageFinish = 0;
+    private $totalRows = 0;
+    private $rows = 0;
 
-    function __construct( $path )
+    function __construct( $path, $percentageStart, $percentageFinish )
     {
         $this->pathDirImages = $path;
+        $this->percentageStart = $percentageStart;
+        $this->percentageFinish = $percentageFinish;
     }
 
     public function collection(Collection $rows)
     {
-        //
+        $this->totalRows = count($rows);
+
         foreach ( $rows as $row ) {
+            // sleep(1);
+            ++$this->rows;
+
             $directories = Storage::allDirectories($this->pathDirImages);
             $regex = "/\/{$row['id']}$/";
             $dirImagesProduct = '';
@@ -70,6 +81,16 @@ class ProductsImport implements ToCollection, WithHeadingRow
                     'star' => $row['star'],
                 ]
             );
+
+            if ( $this->rows % ceil($this->totalRows * 10 / 100) === 0 ) {
+                $progressPercentage = round($this->getProgress() * ($this->percentageFinish - $this->percentageStart) / 100);
+                broadcast( new NewImportFileStatus('executing', $this->percentageStart + $progressPercentage) );
+            }
+
         }
+    }
+
+    public function getProgress() {
+        return round($this->rows / $this->totalRows * 100);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+use App\Events\NewImportFileStatus;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -10,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\CategoriesImport as ImportCategories;
 use Illuminate\Support\Facades\Storage;
+use Throwable;
 
 class CategoriesImport implements ShouldQueue
 {
@@ -20,7 +22,7 @@ class CategoriesImport implements ShouldQueue
      *
      * @return void
      */
-    public $tries = 3;
+    public $tries = 1;
 
     protected $filePath;
 
@@ -36,7 +38,23 @@ class CategoriesImport implements ShouldQueue
      */
     public function handle()
     {
-        Excel::import(new ImportCategories, $this->filePath);
+        $import = new ImportCategories;
+        Excel::import($import, $this->filePath);
+
+        // for ($i = 0; $i < 10; $i ++) {
+        //     sleep(1);
+        //     if ( $i === 2 ) {
+        //         $this->fail($i * 10);
+        //     } else {
+        //         broadcast( new NewImportFileStatus('executing', $i * 10) );
+        //     }
+        // }
         Storage::deleteDirectory('temp');
+        broadcast( new NewImportFileStatus('finished', 100) );
+    }
+
+    public function failed($percentage)
+    {
+        broadcast( new NewImportFileStatus('failed', $percentage) );
     }
 }

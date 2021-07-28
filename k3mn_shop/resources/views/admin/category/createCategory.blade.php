@@ -54,8 +54,26 @@
             <p>{{ session('error') }}</p>
           </div>
           @elseif ( session('message') )
-          <div class="alert alert-success">
-            <p>{{ session('message') }}</p>
+          <div class="alert alert-info">
+            <p id="message-status">{{ session('message') }}</p>
+
+            <div class="progress">
+              <div 
+                id="progress-import"
+                class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
+                role="progressbar" 
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+                style="width: 0%"
+              >
+                0%
+              </div>
+            </div>
+            <br>
+            <div id="link-admin-page" style="display: none;">
+              <a href="{{ route('adminCategory.index') }}">Tới trang quản trị >>>>>>></a>
+            </div>
           </div>
           @endif
 
@@ -84,5 +102,6 @@
 @stop
 
 @section('js')
-
+<script src="http://localhost:6001/socket.io/socket.io.js"></script>
+<script type="text/javascript" src="{{ asset('js/more_js/app2.js') }}"></script>
 @stop

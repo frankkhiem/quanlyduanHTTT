@@ -8,6 +8,7 @@ use App\Jobs\CategoriesImport as JobsCategoriesImport;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class AdminCategoryController extends Controller
 {
@@ -128,8 +129,9 @@ class AdminCategoryController extends Controller
             'file-import-categories.*' => 'mimes:xlsx,xls,csv'
         ]);
         $fileName = $request->file('file-import-categories')->getClientOriginalName();
-        if ( $fileName !== 'categories_data.csv' ) {
-            return redirect()->back()->with('error', "Tên file không hợp lệ: Yêu cầu 'categories_data.csv' không phải '$fileName'");
+        $fileNameWithoutExtension = File::name($fileName);
+        if ( $fileNameWithoutExtension !== 'categories_data' ) {
+            return redirect()->back()->with('error', "Tên file không hợp lệ: Yêu cầu 'categories_data' không phải '$fileNameWithoutExtension'");
         }
         $filePath = $request->file('file-import-categories')->storeAs('temp', $fileName);
         JobsCategoriesImport::dispatch( $filePath );

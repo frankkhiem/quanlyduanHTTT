@@ -13,6 +13,8 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\ProductsImport as ImportProducts;
 use App\Imports\InfoProductsImport;
 use ZipArchive;
+use App\Events\NewImportFileStatus;
+use Exception;
 
 class ProductsImport implements ShouldQueue
 {
@@ -23,7 +25,7 @@ class ProductsImport implements ShouldQueue
      *
      * @return void
      */
-    public $tries = 3;
+    public $tries = 1;
 
     protected $pathZipFile;
 
@@ -40,16 +42,19 @@ class ProductsImport implements ShouldQueue
      */
     public function handle()
     {
+        sleep(1);
         $zip = new ZipArchive();
         if ( $zip->open( storage_path('app\\'.$this->pathZipFile) ) ) {
             $zip->extractTo( storage_path('app\\temp\\'. File::name($this->pathZipFile)) );
             $zip->close();
-
+            
             // Đường dẫn tương đối tới thư mục giải nén
             $pathDirExtract = 'temp\\'.File::name($this->pathZipFile);
         } else {
             echo('Extract fail!!!!!!');
         }
+        broadcast( new NewImportFileStatus('executing', 10) );
+
         $productsData = ""; 
         $infoProductsData = "";
         $filesInDir = Storage::files( $pathDirExtract );
@@ -57,15 +62,23 @@ class ProductsImport implements ShouldQueue
             if ( File::name($file) === "products_data" ) $productsData = $file;
             if ( File::name($file) === "information_products_data" ) $infoProductsData = $file;
         }
+        broadcast( new NewImportFileStatus('executing', 20) );
 
         // Nếu không tồn tại 2 tệp thỏa mãn thì fail job
         if ( !$productsData || !$infoProductsData ) {
             Storage::deleteDirectory('temp');
-            $this->fail();
+            $this->fail(20);
         }
-        
-        Excel::import(new ImportProducts( $pathDirExtract ), $productsData);
-        Excel::import(new InfoProductsImport, $infoProductsData);
+
+        Excel::import(new ImportProducts( $pathDirExtract, 20, 65 ), $productsData);
+        Excel::import(new InfoProductsImport(65, 95), $infoProductsData);
         Storage::deleteDirectory('temp');
+        sleep(1);
+        broadcast( new NewImportFileStatus('finished', 100) );
+    }
+
+    public function failed($percentage)
+    {
+        broadcast( new NewImportFileStatus('failed', $percentage) );
     }
 }
