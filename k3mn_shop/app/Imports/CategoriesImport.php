@@ -22,7 +22,7 @@ class CategoriesImport implements ToModel, WithHeadingRow, WithBatchInserts, Wit
 
     public function model(array $row)
     {
-        sleep(3);
+        // sleep(1);
         ++$this->rows;
         
         if ( $this->rows % ceil($this->totalRows * 10 / 100) === 0 ) {

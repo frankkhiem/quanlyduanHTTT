@@ -15,6 +15,7 @@ use App\Imports\InfoProductsImport;
 use ZipArchive;
 use App\Events\NewImportFileStatus;
 use Exception;
+use Throwable;
 
 class ProductsImport implements ShouldQueue
 {
@@ -67,7 +68,7 @@ class ProductsImport implements ShouldQueue
         // Nếu không tồn tại 2 tệp thỏa mãn thì fail job
         if ( !$productsData || !$infoProductsData ) {
             Storage::deleteDirectory('temp');
-            $this->fail(20);
+            throw new Exception("20");
         }
 
         Excel::import(new ImportProducts( $pathDirExtract, 20, 65 ), $productsData);
@@ -77,8 +78,8 @@ class ProductsImport implements ShouldQueue
         broadcast( new NewImportFileStatus('finished', 100) );
     }
 
-    public function failed($percentage)
+    public function failed(Throwable $exception = null)
     {
-        broadcast( new NewImportFileStatus('failed', $percentage) );
+        broadcast( new NewImportFileStatus('failed', (int) $exception->getMessage()) );
     }
 }

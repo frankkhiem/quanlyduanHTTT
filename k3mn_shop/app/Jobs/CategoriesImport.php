@@ -10,6 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\CategoriesImport as ImportCategories;
+use Exception;
 use Illuminate\Support\Facades\Storage;
 use Throwable;
 
@@ -41,20 +42,13 @@ class CategoriesImport implements ShouldQueue
         $import = new ImportCategories;
         Excel::import($import, $this->filePath);
 
-        // for ($i = 0; $i < 10; $i ++) {
-        //     sleep(1);
-        //     if ( $i === 2 ) {
-        //         $this->fail($i * 10);
-        //     } else {
-        //         broadcast( new NewImportFileStatus('executing', $i * 10) );
-        //     }
-        // }
+        sleep(2);
         Storage::deleteDirectory('temp');
         broadcast( new NewImportFileStatus('finished', 100) );
     }
 
-    public function failed($percentage)
+    public function failed(Throwable $exception = null)
     {
-        broadcast( new NewImportFileStatus('failed', $percentage) );
+        broadcast( new NewImportFileStatus('failed', (int) $exception->getMessage()) );
     }
 }
