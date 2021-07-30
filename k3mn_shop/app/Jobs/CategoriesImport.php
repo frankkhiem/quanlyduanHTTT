@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Events\NewImportFileStatus;
+use App\Events\ResultCategoriesImport;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -39,16 +40,18 @@ class CategoriesImport implements ShouldQueue
      */
     public function handle()
     {
+        sleep(1);
         $import = new ImportCategories;
         Excel::import($import, $this->filePath);
 
-        sleep(2);
+        // sleep(1);
         Storage::deleteDirectory('temp');
-        broadcast( new NewImportFileStatus('finished', 100) );
+        // throw new Exception("Thực hiện nhập danh mục sản phẩm thất bại. Vui lòng thử lại!");
+        broadcast( new ResultCategoriesImport('finished', 'success', $import->getRowCount(), $import->getRowsFail()) );
     }
 
-    public function failed(Throwable $exception = null)
+    public function failed(Throwable $exception)
     {
-        broadcast( new NewImportFileStatus('failed', (int) $exception->getMessage()) );
+        broadcast( new ResultCategoriesImport('failed', $exception->getMessage()) );
     }
 }

@@ -38972,24 +38972,88 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+var _require = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js"),
+    join = _require.join;
+
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 Echo["private"]('notifications_for_admin').listen('NewImportFileStatus', function (data) {
+  console.log(data);
+  var progressBar = document.getElementById('progress-import');
+  progressBar.style.width = "".concat(data.progress_percentage, "%");
+  progressBar.innerText = "".concat(data.progress_percentage, "%");
+}).listen('ResultCategoriesImport', function (data) {
   console.log(data);
   var status = data.status;
 
   if (status === 'finished') {
     document.getElementById('message-status').innerText = "Xử lý tệp thành công!";
     document.getElementById('link-admin-page').style.display = "block";
+    var progressBar = document.getElementById('progress-import');
+    progressBar.classList.remove('bg-success');
+    progressBar.classList.add('bg-info');
+
+    var _alertCard = document.getElementById('alert-card');
+
+    _alertCard.classList.remove('alert-info');
+
+    _alertCard.classList.add('alert-success');
+
+    var modalResult = document.getElementById('result-import');
+    var totalRowsFailed = data.description.arrayRowsFail.length;
+    var listRowsFailed = data.description.arrayRowsFail.join(', ');
+    modalResult.innerHTML = '<h6>Số hàng nhập thành công: ' + "".concat(data.description.totalRowsReaded - totalRowsFailed, "/").concat(data.description.totalRowsReaded) + '</h6>' + '<hr>' + '<h6>Danh sách các hàng nhập thất bại:</h6>' + "<p>".concat(listRowsFailed, "<p>");
   } else if (status === 'failed') {
-    document.getElementById('message-status').innerText = "Xử lý tệp thất bại. Vui lòng thử lại!"; // document.getElementById('message-status').style.color = "red";
-
+    document.getElementById('message-status').innerText = data.message;
     document.getElementById('message-status').style.fontWeight = "bold";
+    var alertCard = document.getElementById('alert-card');
+    alertCard.classList.remove('alert-info');
+    alertCard.classList.add('alert-danger');
   }
+}).listen('ResultProductsImport', function (data) {
+  console.log(data);
+  var status = data.status;
 
-  var progress_bar = document.getElementById('progress-import');
-  progress_bar.style.width = "".concat(data.progress_percentage, "%");
-  progress_bar.innerText = "".concat(data.progress_percentage, "%");
+  if (status === 'finished') {
+    document.getElementById('message-status').innerText = "Xử lý tệp thành công!";
+    document.getElementById('link-admin-page').style.display = "block";
+    var progressBar = document.getElementById('progress-import');
+    progressBar.classList.remove('bg-success');
+    progressBar.classList.add('bg-info');
+
+    var _alertCard2 = document.getElementById('alert-card');
+
+    _alertCard2.classList.remove('alert-info');
+
+    _alertCard2.classList.add('alert-success');
+
+    var modalResult = document.getElementById('result-import');
+    var totalRowsProductFailed = data.description.productsImport.arrayRowsFail.length;
+    var listRowsProductFailed = 'None';
+
+    if (totalRowsProductFailed > 0) {
+      listRowsProductFailed = data.description.productsImport.arrayRowsFail.join(', ');
+    }
+
+    var totalRowsProductSuccess = data.description.productsImport.totalRowsReaded - totalRowsProductFailed;
+    var totalRowsInfoProductFailed = data.description.infoProductsImport.arrayRowsFail.length;
+    var listRowsInfoProductFailed = 'None';
+
+    if (totalRowsInfoProductFailed > 0) {
+      listRowsInfoProductFailed = data.description.infoProductsImport.arrayRowsFail.join(', ');
+    }
+
+    var totalRowsInfoProductSuccess = data.description.infoProductsImport.totalRowsReaded - totalRowsInfoProductFailed;
+    var resultProduct = '<h4>Xử lý file products_data:</h4>' + "<h6>S\u1ED1 h\xE0ng nh\u1EADp th\xE0nh c\xF4ng: ".concat(totalRowsProductSuccess, "/").concat(data.description.productsImport.totalRowsReaded, "</h6>") + '<h6>Danh sách các hàng nhập thất bại:</h6>' + "<p>".concat(listRowsProductFailed, "</p>");
+    var resultInfoProduct = '<h4>Xử lý file infomation_products_data:</h4>' + "<h6>S\u1ED1 h\xE0ng nh\u1EADp th\xE0nh c\xF4ng: ".concat(totalRowsInfoProductSuccess, "/").concat(data.description.infoProductsImport.totalRowsReaded, "</h6>") + '<h6>Danh sách các hàng nhập thất bại:</h6>' + "<p>".concat(listRowsInfoProductFailed, "</p>");
+    modalResult.innerHTML = resultProduct + '<hr>' + resultInfoProduct;
+  } else if (status === 'failed') {
+    document.getElementById('message-status').innerText = data.message;
+    document.getElementById('message-status').style.fontWeight = "bold";
+    var alertCard = document.getElementById('alert-card');
+    alertCard.classList.remove('alert-info');
+    alertCard.classList.add('alert-danger');
+  }
 });
 
 /***/ }),

@@ -17,10 +17,11 @@ class InfoProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, W
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
-    private $rows = 0;
+    private $currentRow = 0;
     private $totalRows = 0;
     private $percentageStart = 0;
     private $percentageFinish = 0;
+    private $arrayRowsFail = [];
 
     function __construct($percentageStart, $percentageFinish)
     {
@@ -30,12 +31,18 @@ class InfoProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, W
 
     public function model(array $row)
     {
-        ++$this->rows;
+        ++$this->currentRow;
         
-        if ( $this->rows % ceil($this->totalRows * 10 / 100) === 0 ) {
+        if ( $this->currentRow % ceil($this->totalRows * 10 / 100) === 0 ) {
             $progressPercentage = round($this->getProgress() * ($this->percentageFinish - $this->percentageStart) / 100);
             broadcast( new NewImportFileStatus('executing', $this->percentageStart + $progressPercentage) );
         }
+
+        if ( !isset($row['product_id']) || !isset($row['attribute']) || !isset($row['information']) ) {
+            $this->arrayRowsFail[] = $this->currentRow + 1;
+            return null;
+        }
+
         return new InfoProduct([
             'product_id' => $row['product_id'],
             'attribute' => $row['attribute'],
@@ -51,13 +58,17 @@ class InfoProductsImport implements ToModel, WithHeadingRow, WithBatchInserts, W
     // Hàm tính số hàng đã được nhập
     public function getRowCount(): int
     {
-        return $this->rows;
+        return $this->currentRow;
+    }
+
+    public function getRowsFail() {
+        return $this->arrayRowsFail;
     }
 
     // Hàm tính tiến độ hoàn thành nhập
     public function getProgress()
     {
-        return round($this->rows / $this->totalRows * 100);
+        return round($this->currentRow / $this->totalRows * 100);
     }
 
     public function registerEvents(): array

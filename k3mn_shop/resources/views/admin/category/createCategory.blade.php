@@ -54,7 +54,7 @@
             <p>{{ session('error') }}</p>
           </div>
           @elseif ( session('message') )
-          <div class="alert alert-info">
+          <div class="alert alert-info" id="alert-card">
             <p id="message-status">{{ session('message') }}</p>
 
             <div class="progress">
@@ -72,11 +72,36 @@
             </div>
             <br>
             <div id="link-admin-page" style="display: none;">
+              <div>
+                <!-- Button trigger modal -->
+                <p data-toggle="modal" class="btn" data-target="#exampleModalCenter" style="color: white;">
+                  Chi tiết
+                </p>
+              </div>
               <a href="{{ route('adminCategory.index') }}">Tới trang quản trị >>>>>>></a>
             </div>
           </div>
           @endif
 
+          <!-- Modal -->
+          <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">Kết quả nhập dữ liệu danh mục sản phẩm</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body" id="result-import">
+                  <!-- nội dung kết quả quá trình nhập dữ liệu -->
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
           <div id="file-input">
             <input type="file" name="file-import-categories" id="customFile">
             <!-- <label for="customFile">Choose file</label> -->

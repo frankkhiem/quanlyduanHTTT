@@ -17,21 +17,25 @@ class CategoriesImport implements ToModel, WithHeadingRow, WithBatchInserts, Wit
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
-    private $rows = 0;
+    private $currentRow = 0;
     private $totalRows = 0;
+    private $arrayRowsFail = [];
 
     public function model(array $row)
     {
         // sleep(1);
-        ++$this->rows;
-        
-        if ( $this->rows % ceil($this->totalRows * 10 / 100) === 0 ) {
+        ++$this->currentRow;
+        if ( $this->currentRow % ceil($this->totalRows * 10 / 100) === 0 ) {
             $progressPercentage = $this->getProgress();
             broadcast( new NewImportFileStatus('executing', $progressPercentage) );
         }
         
+        if ( !isset($row['name']) || !isset($row['short_desc']) || !isset($row['full_desc']) ) {
+            $this->arrayRowsFail[] = $this->currentRow + 1;
+            return null;
+        }
+        
         return new Category([
-            //
             'name' => $row['name'],
             'short_desc' => $row['short_desc'],
             'full_desc' => $row['full_desc']
@@ -46,13 +50,17 @@ class CategoriesImport implements ToModel, WithHeadingRow, WithBatchInserts, Wit
     // Hàm tính số hàng đã được nhập
     public function getRowCount(): int
     {
-        return $this->rows;
+        return $this->currentRow;
+    }
+
+    public function getRowsFail() {
+        return $this->arrayRowsFail;
     }
 
     // Hàm tính tiến độ hoàn thành nhập
     public function getProgress()
     {
-        return round($this->rows / $this->totalRows * 100);
+        return round($this->currentRow / $this->totalRows * 100);
     }
 
     public function registerEvents(): array

@@ -19,13 +19,13 @@
       <div class="card-body col-md-8">
 
         @if ( session('message') )
-        <div class="alert alert-success">
+        <div class="alert alert-info" id="alert-card">
           <p id="message-status">{{ session('message') }}</p>
 
           <div class="progress">
               <div 
                 id="progress-import"
-                class="progress-bar progress-bar-striped progress-bar-animated bg-info" 
+                class="progress-bar progress-bar-striped progress-bar-animated bg-success" 
                 role="progressbar" 
                 aria-valuenow="0"
                 aria-valuemin="0"
@@ -37,10 +37,36 @@
             </div>
             <br>
             <div id="link-admin-page" style="display: none;">
+              <div>
+                <!-- Button trigger modal -->
+                <p data-toggle="modal" class="btn" data-target="#exampleModalCenter" style="color: white;">
+                  Chi tiết
+                </p>
+              </div>       
               <a href="{{ route('adminProduct.index') }}">Tới trang quản trị >>>>>>></a>
             </div>
         </div>
         @endif
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Kết quả nhập dữ liệu sản phẩm</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body" id="result-import">
+                <!-- nội dung kết quả quá trình nhập dữ liệu -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div class="file-input">
           <input type="file" name="file-import-products" id="customFile">

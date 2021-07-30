@@ -21,7 +21,8 @@ class ProductsImport implements ToCollection, WithHeadingRow
     private $percentageStart = 0;
     private $percentageFinish = 0;
     private $totalRows = 0;
-    private $rows = 0;
+    private $currentRow = 0;
+    private $arrayRowsFail = [];
 
     function __construct( $path, $percentageStart, $percentageFinish )
     {
@@ -36,7 +37,14 @@ class ProductsImport implements ToCollection, WithHeadingRow
 
         foreach ( $rows as $row ) {
             // sleep(1);
-            ++$this->rows;
+            ++$this->currentRow;
+
+            if ( !$row['id'] || !$row['category_id'] || !$row['name'] || !$row['short_desc'] || !$row['full_desc'] ||
+                !$row['price'] || !$row['status_product_id'] ) 
+            {
+                $this->arrayRowsFail[] = $this->currentRow + 1;
+                continue;
+            }
 
             $directories = Storage::allDirectories($this->pathDirImages);
             $regex = "/\/{$row['id']}$/";
@@ -82,7 +90,7 @@ class ProductsImport implements ToCollection, WithHeadingRow
                 ]
             );
 
-            if ( $this->rows % ceil($this->totalRows * 10 / 100) === 0 ) {
+            if ( $this->currentRow % ceil($this->totalRows * 10 / 100) === 0 ) {
                 $progressPercentage = round($this->getProgress() * ($this->percentageFinish - $this->percentageStart) / 100);
                 broadcast( new NewImportFileStatus('executing', $this->percentageStart + $progressPercentage) );
             }
@@ -91,6 +99,14 @@ class ProductsImport implements ToCollection, WithHeadingRow
     }
 
     public function getProgress() {
-        return round($this->rows / $this->totalRows * 100);
+        return round($this->currentRow / $this->totalRows * 100);
+    }
+
+    public function getRowCount() {
+        return $this->totalRows;
+    }
+
+    public function getRowsFail() {
+        return $this->arrayRowsFail;
     }
 }
