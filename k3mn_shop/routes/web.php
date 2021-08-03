@@ -81,9 +81,11 @@ Route::prefix('admin')->middleware('admin')->group(function () {
     // Các route quản trị thêm không nằm trong resource tạo sẵn
     // Với category
     Route::post('/categories/file-import', 'Admin\AdminCategoryController@fileImport')->name('importCategoriesByFile');
+    Route::post('/download/log-categories-import', 'Admin\AdminCategoryController@downloadLogImport')->name('downloadCategoriesLogFile');
     // Với product
     Route::get('/products/file-import', 'Admin\AdminProductController@viewFileImport')->name('viewFileImportProducts');
     Route::post('/products/file-import', 'Admin\AdminProductController@fileImport')->name('importProductsByFile');
+    Route::post('/download/log-products-import', 'Admin\AdminProductController@downloadLogImport')->name('downloadProductsLogFile');
     // Với thông số kỹ thuật của product
     Route::post('info-products/file-import', 'Admin\AdminInfoProductController@fileImport')->name('importInfoProductsByFile');
 });

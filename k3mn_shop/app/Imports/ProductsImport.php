@@ -42,7 +42,11 @@ class ProductsImport implements ToCollection, WithHeadingRow
             if ( !$row['id'] || !$row['category_id'] || !$row['name'] || !$row['short_desc'] || !$row['full_desc'] ||
                 !$row['price'] || !$row['status_product_id'] ) 
             {
-                $this->arrayRowsFail[] = $this->currentRow + 1;
+                $infoRowFail = [];
+                array_push($infoRowFail, $this->currentRow + 1, $row['id'], $row['category_id'], $row['name']);
+                array_push($infoRowFail, $row['short_desc'], $row['full_desc'] , $row['price'], $row['status_product_id']);
+                array_push($infoRowFail, $row['star'], 'Thất bại');
+                $this->arrayRowsFail[] = $infoRowFail;
                 continue;
             }
 
@@ -73,22 +77,22 @@ class ProductsImport implements ToCollection, WithHeadingRow
                 }
             }
 
-            Product::updateOrCreate(
-                [ 
-                    'id' => $row['id'] 
-                ],
-                [
-                    'category_id' => $row['category_id'],
-                    'name' => $row['name'],
-                    'thumbnail' => $thumbnail,
-                    'image' => json_encode($imagesPath),
-                    'short_desc' => $row['short_desc'],
-                    'full_desc' => $row['full_desc'],
-                    'price' => $row['price'],
-                    'status_product_id' => $row['status_product_id'],
-                    'star' => $row['star'],
-                ]
-            );
+            // Product::updateOrCreate(
+            //     [ 
+            //         'id' => $row['id'] 
+            //     ],
+            //     [
+            //         'category_id' => $row['category_id'],
+            //         'name' => $row['name'],
+            //         'thumbnail' => $thumbnail,
+            //         'image' => json_encode($imagesPath),
+            //         'short_desc' => $row['short_desc'],
+            //         'full_desc' => $row['full_desc'],
+            //         'price' => $row['price'],
+            //         'status_product_id' => $row['status_product_id'],
+            //         'star' => $row['star'],
+            //     ]
+            // );
 
             if ( $this->currentRow % ceil($this->totalRows * 10 / 100) === 0 ) {
                 $progressPercentage = round($this->getProgress() * ($this->percentageFinish - $this->percentageStart) / 100);

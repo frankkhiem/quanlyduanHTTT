@@ -211,4 +211,9 @@ class AdminProductController extends Controller
         
         return redirect()->back()->with('message', "Tệp dữ liệu đang được xử lý");
     }
+
+    public function downloadLogImport(Request $request) {
+        $filePath = 'app/'. $request->filePath;
+        return response()->download(storage_path($filePath));
+    }
 }

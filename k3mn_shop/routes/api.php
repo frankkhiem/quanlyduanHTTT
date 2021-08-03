@@ -49,6 +49,7 @@ Route::get('topsellingtbycategory/{id}', 'Api\ProductController@topSellingByCate
 //API danh muc san pham
 Route::get('/category', 'Api\CategoryController@index')->name('categorys.index');
 Route::get('/category/{id}', 'Api\CategoryController@show')->name('categorys.show');
+Route::get('/download/log-categories-import/{filePath}', 'Api\CategoryController@downloadLogImport');
 
 // API danh sach don hang da dat
 Route::get('/listorders','Api\OrderController@index')->middleware('user');

@@ -25,17 +25,11 @@ class ResultCategoriesImport implements ShouldBroadcastNow
     public $message;
     public $description;
 
-    public function __construct($status, $message, $rowsReaded = null, $arrayRowsFail = null)
+    public function __construct($status, $message, $description = null)
     {
         $this->status = $status;
         $this->message = $message;
-        if ( $status === 'finished' ) {
-            $this->description = new stdClass();
-            $this->description->totalRowsReaded = $rowsReaded;
-            $this->description->arrayRowsFail = $arrayRowsFail;
-        } else {
-            $this->description = null;
-        }
+        $this->description = $description;
     }
 
     /**

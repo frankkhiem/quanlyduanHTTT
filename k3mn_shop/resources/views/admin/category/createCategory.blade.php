@@ -40,8 +40,7 @@
   <br>
 
   <!-- Tạo danh mục bằng file CSV/Excel -->
-  <form action="{{ route('importCategoriesByFile') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+  <div>
     <div class="card card-primary">
       <div class="card card-primary">
         <div class="card-header">
@@ -93,28 +92,38 @@
                     <span aria-hidden="true">&times;</span>
                   </button>
                 </div>
-                <div class="modal-body" id="result-import">
+                <div class="modal-body">
                   <!-- nội dung kết quả quá trình nhập dữ liệu -->
+                  <div id="result-import"></div>
+                  <form action="{{ route('downloadCategoriesLogFile') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="filePath" id="filePath">
+                    <button type="submit" class="btn btn-primary btn-sm">Download</button>
+                  </form>
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 </div>
               </div>
             </div>
           </div>
-          <div id="file-input">
-            <input type="file" name="file-import-categories" id="customFile">
-            <!-- <label for="customFile">Choose file</label> -->
-          </div>
-          <br>
-          <div>          
-            <button type="submit" class="btn btn-success float-right">Xác nhận</button>
-            <a href="{{ route('adminCategory.index') }}" class="btn btn-danger float-right">Hủy bỏ</a>
-          </div> 
+
+          <form action="{{ route('importCategoriesByFile') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <div id="file-input">
+              <input type="file" name="file-import-categories" id="customFile">
+              <!-- <label for="customFile">Choose file</label> -->
+            </div>
+            <br>
+            <div>          
+              <button type="submit" class="btn btn-success float-right">Xác nhận</button>
+              <a href="{{ route('adminCategory.index') }}" class="btn btn-danger float-right">Hủy bỏ</a>
+            </div> 
+          </form>
         </div>
       </div>
     </div>
-  </form>
+  </div>
 @stop
 
 @section('css')

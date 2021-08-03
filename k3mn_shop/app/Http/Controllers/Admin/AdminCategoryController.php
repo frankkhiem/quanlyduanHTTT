@@ -9,6 +9,7 @@ use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class AdminCategoryController extends Controller
 {
@@ -137,5 +138,11 @@ class AdminCategoryController extends Controller
         JobsCategoriesImport::dispatch( $filePath );
         
         return redirect()->back()->with('message', "Tệp dữ liệu đang được xử lý");
+    }
+
+    public function downloadLogImport(Request $request) {
+        $filePath = 'app/'. $request->filePath;
+        // return Storage::download($filePath);
+        return response()->download(storage_path($filePath));
     }
 }

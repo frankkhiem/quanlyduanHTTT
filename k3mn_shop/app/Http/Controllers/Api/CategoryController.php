@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -26,5 +27,9 @@ class CategoryController extends Controller
                             ->get();
          
         return $category;
+    }
+
+    public function downloadLogImport($filePath) {
+        return Storage::download($filePath);
     }
 }

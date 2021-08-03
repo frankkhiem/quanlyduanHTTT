@@ -15,9 +15,12 @@ use App\Imports\InfoProductsImport;
 use ZipArchive;
 use App\Events\NewImportFileStatus;
 use App\Events\ResultProductsImport;
+use App\Exports\LogProductsImport;
 use Exception;
 use stdClass;
 use Throwable;
+
+use function PHPSTORM_META\map;
 
 class ProductsImport implements ShouldQueue
 {
@@ -92,6 +95,13 @@ class ProductsImport implements ShouldQueue
         $description->infoProductsImport->totalRowsReaded = $infoProductsImport->getRowCount();
         $description->infoProductsImport->arrayRowsFail = $infoProductsImport->getRowsFail();
         
+        // Lưu file log vào storage
+        date_default_timezone_set("Asia/Bangkok");
+        $now = date("His_d-m-Y");
+        $logFile = "log_import/log_products_import_". $now. ".xlsx";
+        Excel::store(new LogProductsImport($productsImport->getRowsFail(), $infoProductsImport->getRowsFail()), $logFile);
+        $description->pathLogFile = $logFile;
+
         // sleep(1);
         broadcast( new ResultProductsImport('finished', 'success', $description) );
     }

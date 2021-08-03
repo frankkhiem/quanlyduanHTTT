@@ -13,6 +13,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\CategoriesImport as ImportCategories;
 use Exception;
 use Illuminate\Support\Facades\Storage;
+use stdClass;
 use Throwable;
 
 class CategoriesImport implements ShouldQueue
@@ -40,14 +41,19 @@ class CategoriesImport implements ShouldQueue
      */
     public function handle()
     {
-        sleep(1);
+        sleep(2);
         $import = new ImportCategories;
         Excel::import($import, $this->filePath);
+
+        $description = new stdClass;
+        $description->totalRowsReaded = $import->getRowCount();
+        $description->arrayRowsFail = $import->getRowsFail();
+        $description->pathLogFile = $import->logFile;
 
         // sleep(1);
         Storage::deleteDirectory('temp');
         // throw new Exception("Thực hiện nhập danh mục sản phẩm thất bại. Vui lòng thử lại!");
-        broadcast( new ResultCategoriesImport('finished', 'success', $import->getRowCount(), $import->getRowsFail()) );
+        broadcast( new ResultCategoriesImport('finished', 'success', $description) );
     }
 
     public function failed(Throwable $exception)

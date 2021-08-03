@@ -9,8 +9,7 @@
 
 @section('content')
     <!-- Nội dung chính của trang quản trị -->
-  <form action="{{ route('importProductsByFile') }}" method="POST" enctype="multipart/form-data">
-    @csrf
+  <div>
     <div class="card card-primary">
       <div class="card-header">
         <h1 class="card-title">Nhập file zip chứa dữ liệu sản phẩm, thông số sản phẩm và ảnh sản phẩm</h1>
@@ -58,29 +57,40 @@
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div class="modal-body" id="result-import">
+              <div class="modal-body">
                 <!-- nội dung kết quả quá trình nhập dữ liệu -->
+                <div id="result-import"></div>
+                <hr>
+                <form action="{{ route('downloadProductsLogFile') }}" method="POST">
+                  @csrf
+                  <h6>Tải xuống file log:</h6>
+                  <input type="hidden" name="filePath" id="logFilePath">
+                  <button type="submit" class="btn btn-primary btn-sm">Download</button>
+                </form>
               </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="file-input">
-          <input type="file" name="file-import-products" id="customFile">
-          <!-- <label for="customFile">Choose file</label> -->
-        </div>
-        <br>
-        <div>          
-          <button type="submit" class="btn btn-success float-right">Xác nhận</button>
-          <a href="{{ route('adminProduct.index') }}" class="btn btn-danger float-right">Hủy bỏ</a>
-        </div> 
+        <form action="{{ route('importProductsByFile') }}" method="POST" enctype="multipart/form-data">
+          @csrf
+          <div class="file-input">
+            <input type="file" name="file-import-products" id="customFile">
+            <!-- <label for="customFile">Choose file</label> -->
+          </div>
+          <br>
+          <div>          
+            <button type="submit" class="btn btn-success float-right">Xác nhận</button>
+            <a href="{{ route('adminProduct.index') }}" class="btn btn-danger float-right">Hủy bỏ</a>
+          </div>
+        </form> 
       </div>
       <!-- /.card-body -->
     </div>
-  </form>
+  </div>
   <br><hr><br>
 @stop
 

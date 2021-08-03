@@ -38972,8 +38972,9 @@ module.exports = function(module) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var _require = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js"),
-    join = _require.join;
+var _require = __webpack_require__(/*! axios */ "./node_modules/axios/index.js"),
+    axios = _require["default"]; // const FileDownload = require('js-file-download');
+
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
@@ -39001,8 +39002,12 @@ Echo["private"]('notifications_for_admin').listen('NewImportFileStatus', functio
 
     var modalResult = document.getElementById('result-import');
     var totalRowsFailed = data.description.arrayRowsFail.length;
-    var listRowsFailed = data.description.arrayRowsFail.join(', ');
-    modalResult.innerHTML = '<h6>Số hàng nhập thành công: ' + "".concat(data.description.totalRowsReaded - totalRowsFailed, "/").concat(data.description.totalRowsReaded) + '</h6>' + '<hr>' + '<h6>Danh sách các hàng nhập thất bại:</h6>' + "<p>".concat(listRowsFailed, "<p>");
+    var listRowsFailed = data.description.arrayRowsFail.map(function (item) {
+      return item[0];
+    }).join(', ');
+    modalResult.innerHTML = '<h6>Số hàng nhập thành công: ' + "".concat(data.description.totalRowsReaded - totalRowsFailed, "/").concat(data.description.totalRowsReaded) + '</h6>' + '<hr>' + '<h6>Danh sách các hàng nhập thất bại:</h6>' + "<p>".concat(listRowsFailed, "<p>") + '<hr>' + '<h6>Tải xuống file log: </h6>';
+    var inputFilePath = document.getElementById('filePath');
+    inputFilePath.value = data.description.pathLogFile;
   } else if (status === 'failed') {
     document.getElementById('message-status').innerText = data.message;
     document.getElementById('message-status').style.fontWeight = "bold";
@@ -39032,7 +39037,9 @@ Echo["private"]('notifications_for_admin').listen('NewImportFileStatus', functio
     var listRowsProductFailed = 'None';
 
     if (totalRowsProductFailed > 0) {
-      listRowsProductFailed = data.description.productsImport.arrayRowsFail.join(', ');
+      listRowsProductFailed = data.description.productsImport.arrayRowsFail.map(function (item) {
+        return item[0];
+      }).join(', ');
     }
 
     var totalRowsProductSuccess = data.description.productsImport.totalRowsReaded - totalRowsProductFailed;
@@ -39040,13 +39047,17 @@ Echo["private"]('notifications_for_admin').listen('NewImportFileStatus', functio
     var listRowsInfoProductFailed = 'None';
 
     if (totalRowsInfoProductFailed > 0) {
-      listRowsInfoProductFailed = data.description.infoProductsImport.arrayRowsFail.join(', ');
+      listRowsInfoProductFailed = data.description.infoProductsImport.arrayRowsFail.map(function (item) {
+        return item[0];
+      }).join(', ');
     }
 
     var totalRowsInfoProductSuccess = data.description.infoProductsImport.totalRowsReaded - totalRowsInfoProductFailed;
     var resultProduct = '<h4>Xử lý file products_data:</h4>' + "<h6>S\u1ED1 h\xE0ng nh\u1EADp th\xE0nh c\xF4ng: ".concat(totalRowsProductSuccess, "/").concat(data.description.productsImport.totalRowsReaded, "</h6>") + '<h6>Danh sách các hàng nhập thất bại:</h6>' + "<p>".concat(listRowsProductFailed, "</p>");
     var resultInfoProduct = '<h4>Xử lý file infomation_products_data:</h4>' + "<h6>S\u1ED1 h\xE0ng nh\u1EADp th\xE0nh c\xF4ng: ".concat(totalRowsInfoProductSuccess, "/").concat(data.description.infoProductsImport.totalRowsReaded, "</h6>") + '<h6>Danh sách các hàng nhập thất bại:</h6>' + "<p>".concat(listRowsInfoProductFailed, "</p>");
     modalResult.innerHTML = resultProduct + '<hr>' + resultInfoProduct;
+    var inputFilePath = document.getElementById('logFilePath');
+    inputFilePath.value = data.description.pathLogFile;
   } else if (status === 'failed') {
     document.getElementById('message-status').innerText = data.message;
     document.getElementById('message-status').style.fontWeight = "bold";
