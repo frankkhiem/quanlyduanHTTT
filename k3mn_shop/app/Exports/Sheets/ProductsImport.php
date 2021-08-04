@@ -24,12 +24,12 @@ class ProductsImport implements FromArray, WithHeadings, WithTitle, WithStrictNu
     public function headings(): array
     {
         return [
-            '# Row Order', 'id', 'category_id', 'name', 'short_desc', 'full_desc', 'price', 'status_product_id', 'star', 'Status Import'
+            '# Row Order', 'id', 'Status Import', 'Error code', 'Error name'
         ];
     }
 
     public function title(): string
     {
-        return 'Log Products Import Fail';
+        return 'Log Products Import';
     }
 }

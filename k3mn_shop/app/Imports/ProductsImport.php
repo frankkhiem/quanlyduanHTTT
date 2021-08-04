@@ -39,13 +39,18 @@ class ProductsImport implements ToCollection, WithHeadingRow
             // sleep(1);
             ++$this->currentRow;
 
-            if ( !$row['id'] || !$row['category_id'] || !$row['name'] || !$row['short_desc'] || !$row['full_desc'] ||
-                !$row['price'] || !$row['status_product_id'] ) 
+            if ( !$row['id'] || !$row['category_id'] || !$row['name'] || !$row['short_desc'] || 
+                !$row['full_desc'] || !$row['price'] || !$row['status_product_id'] ) 
             {
                 $infoRowFail = [];
-                array_push($infoRowFail, $this->currentRow + 1, $row['id'], $row['category_id'], $row['name']);
-                array_push($infoRowFail, $row['short_desc'], $row['full_desc'] , $row['price'], $row['status_product_id']);
-                array_push($infoRowFail, $row['star'], 'Thất bại');
+                array_push($infoRowFail, $this->currentRow + 1, $row['id'], 'Thất bại');
+
+                if ( !$row['id'] && !$row['category_id'] && !$row['name'] && !$row['short_desc'] &&
+                    !$row['full_desc'] && !$row['price'] && !$row['status_product_id'] ) {
+                    array_push($infoRowFail, '1', 'Hàng không có dữ liệu');
+                } else {
+                    array_push($infoRowFail, '2', 'Thiếu dữ liệu yêu cầu cần có');
+                }
                 $this->arrayRowsFail[] = $infoRowFail;
                 continue;
             }
@@ -93,6 +98,10 @@ class ProductsImport implements ToCollection, WithHeadingRow
             //         'star' => $row['star'],
             //     ]
             // );
+
+            $infoRowSuccess = [];
+            array_push($infoRowSuccess, $this->currentRow + 1, $row['id'], 'Thành công');
+            $this->arrayRowsFail[] = $infoRowSuccess;
 
             if ( $this->currentRow % ceil($this->totalRows * 10 / 100) === 0 ) {
                 $progressPercentage = round($this->getProgress() * ($this->percentageFinish - $this->percentageStart) / 100);
