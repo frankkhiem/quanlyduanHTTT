@@ -39037,7 +39037,10 @@ Echo["private"]('notifications_for_admin').listen('NewImportFileStatus', functio
     var listRowsProductFailed = 'None';
 
     if (totalRowsProductFailed > 0) {
-      listRowsProductFailed = data.description.productsImport.arrayRowsFail.map(function (item) {
+      rowsFailed = data.description.productsImport.arrayRowsFail.filter(function (item) {
+        return item[3];
+      });
+      listRowsProductFailed = rowsFailed.map(function (item) {
         return item[0];
       }).join(', ');
     }
@@ -39131,7 +39134,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\KHyM\Documents\quanlyduanHTTT\k3mn_shop\resources\js\app2.js */"./resources/js/app2.js");
+module.exports = __webpack_require__(/*! /var/www/html/resources/js/app2.js */"./resources/js/app2.js");
 
 
 /***/ })
