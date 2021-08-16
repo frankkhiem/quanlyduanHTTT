@@ -2119,10 +2119,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -4051,10 +4047,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -4203,15 +4195,57 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      mode: 'login',
+      abc: 0,
       form_login: {
         email: '',
         password: ''
       },
-      error_login: ''
+      error_login: '',
+      formRegister: {
+        name: '',
+        furigana: '',
+        email: '',
+        password: '',
+        password_confirmation: ''
+      },
+      errorRegister: ''
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])({
@@ -4232,6 +4266,40 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           _this.form_login = {};
         });
       });
+    },
+    registerSPA: function registerSPA() {
+      var _this2 = this;
+
+      axios.get('/sanctum/csrf-cookie').then(function (response) {
+        axios.post('/api/register', _this2.formRegister).then(function (response) {
+          console.log(response.data);
+
+          if (response.data.status === 'fails') {
+            alert(response.data.message);
+          } else if (response.data.status === 'ok') {
+            _this2.$router.go();
+          }
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      }); // console.log(this.formRegister);
+    },
+    modeLogin: function modeLogin() {
+      this.mode = 'login';
+      this.formRegister = {
+        name: '',
+        furigana: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      };
+    },
+    modeRegister: function modeRegister() {
+      this.mode = 'register';
+      this.form_login = {
+        email: '',
+        password: ''
+      };
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
     closedModalLogin: 'closedLogin'
@@ -8983,7 +9051,7 @@ exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader
 
 
 // module
-exports.push([module.i, ".modal-login .modal-mask[data-v-52793c2c] {\r\n  position: fixed;\r\n  z-index: 9998;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  background-color: rgba(0, 0, 0, .5);\r\n  display: table;\r\n  transition: opacity .3s ease;\n}\n.modal-login .modal-wrapper[data-v-52793c2c] {\r\n  display: table-cell;\r\n  vertical-align: middle;\n}\n.modal-login .modal-container[data-v-52793c2c] {\r\n  width: 300px;\r\n  margin: 0px auto;\r\n  padding: 20px 30px;\r\n  background-color: #fff;\r\n  border-radius: 2px;\r\n  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\r\n  transition: all .3s ease;\r\n  font-family: Helvetica, Arial, sans-serif;\n}\n.modal-login .modal-button-exit[data-v-52793c2c] {\r\n  float: right;\n}\n.modal-login .modal-body[data-v-52793c2c] {\r\n  margin: 20px 0;\n}\n.modal-login .login-error[data-v-52793c2c] {\r\n  color: red;\n}", ""]);
+exports.push([module.i, ".modal-login .modal-mask[data-v-52793c2c] {\r\n  position: fixed;\r\n  z-index: 9998;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100%;\r\n  height: 100%;\r\n  background-color: rgba(0, 0, 0, .5);\r\n  display: table;\r\n  transition: opacity .3s ease;\n}\n.modal-login .modal-wrapper[data-v-52793c2c] {\r\n  display: table-cell;\r\n  vertical-align: middle;\n}\n.modal-login .modal-container[data-v-52793c2c] {\r\n  width: 300px;\r\n  height: 450px;\r\n  margin: 0px auto;\r\n  padding: 20px 30px;\r\n  background-color: #fff;\r\n  border-radius: 2px;\r\n  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);\r\n  transition: all .3s ease;\r\n  font-family: Helvetica, Arial, sans-serif;\n}\n.modal-login .modal-button-exit[data-v-52793c2c] {\r\n  float: right;\n}\n.modal-login .modal-body[data-v-52793c2c] {\r\n  margin: 20px 0;\r\n  font-family: sans-serif;\n}\n.modal-login .login-error[data-v-52793c2c] {\r\n  color: red;\n}\n.modal-nav[data-v-52793c2c] {\r\n  margin-top: 10px;\r\n  display: flex;\r\n  justify-content: center;\n}\n.modal-nav div[data-v-52793c2c] {\r\n  width: 100px;\r\n  padding: 10px 20px;\r\n  background-color: rgb(201, 202, 200);\r\n  text-align: center;\r\n  cursor: pointer;\n}\n.modal-nav .choice[data-v-52793c2c] {\r\n  background-color: aquamarine;\n}\n.modal-content[data-v-52793c2c] {\r\n  height: 380px;\r\n  box-sizing: border-box;\n}\r\n\r\n/* modal dang nhap tai khoan */\n.modal-content .login[data-v-52793c2c] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  height: 100%;\n}\n.login label[data-v-52793c2c] {\r\n  display: block;\r\n  margin: 20px 0 10px 0;\n}\n.login input[data-v-52793c2c] {\r\n  display: block;\r\n  margin-right: 20px;\r\n  width: 90%;\r\n  height: 32px;\n}\n.login button[data-v-52793c2c] {\r\n  width: 278px;\r\n  height: 32px;\r\n  background-color: rgb(96 199 193);\r\n  border-width: 0;\r\n  border-radius: 3px;\r\n  font-size: 15px;\r\n  color: white;\r\n  margin-top: 20px;\r\n  cursor: pointer;\n}\n.login div.login-social[data-v-52793c2c] {\r\n  display: flex;\r\n  flex-direction: row;\r\n  justify-content: center;\r\n  margin-top: 20px;\n}\n.login div.login-social img[data-v-52793c2c] {\r\n  height: 30px;\r\n  width: 30px;\r\n  margin-right: 20px;\n}\r\n\r\n/* modal dang ky tai khoan */\n.modal-content .register[data-v-52793c2c] {\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: center;\r\n  height: 100%;\n}\n.register label[data-v-52793c2c] {\r\n  display: block;\r\n  margin-top: 10px;\n}\n.register input[data-v-52793c2c] {\r\n  display: block;\r\n  width: 90%;\r\n  height: 25px;\n}\n.register button[data-v-52793c2c] {\r\n  width: 278px;\r\n  height: 30px;\r\n  background-color: rgb(96 199 193);\r\n  border-width: 0;\r\n  border-radius: 3px;\r\n  font-size: 15px;\r\n  color: white;\r\n  margin-top: 20px;\r\n  cursor: pointer;\n}", ""]);
 
 // exports
 
@@ -46685,17 +46753,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "footer-col-2" }, [
             _c("h3", [_vm._v("Sản phẩm của:")]),
             _vm._v(" "),
-            _c("ul", [
-              _c("li", [_vm._v("Nguyễn Quốc Khánh")]),
-              _vm._v(" "),
-              _c("li", [_vm._v("Nguyễn Gia Khiêm")]),
-              _vm._v(" "),
-              _c("li", [_vm._v("Nguyễn Huy Mạnh")]),
-              _vm._v(" "),
-              _c("li", [_vm._v("Trần Minh Khương")]),
-              _vm._v(" "),
-              _c("li", [_vm._v("Nguyễn Văn Nam")])
-            ])
+            _c("ul", [_c("li", [_vm._v("Nguyễn Gia Khiêm")])])
           ])
         ])
       ])
@@ -49616,17 +49674,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "footer-col-2" }, [
             _c("h3", [_vm._v("Sản phẩm của:")]),
             _vm._v(" "),
-            _c("ul", [
-              _c("li", [_vm._v("Nguyễn Quốc Khánh")]),
-              _vm._v(" "),
-              _c("li", [_vm._v("Nguyễn Gia Khiêm")]),
-              _vm._v(" "),
-              _c("li", [_vm._v("Nguyễn Huy Mạnh")]),
-              _vm._v(" "),
-              _c("li", [_vm._v("Trần Minh Khương")]),
-              _vm._v(" "),
-              _c("li", [_vm._v("Nguyễn Văn Nam")])
-            ])
+            _c("ul", [_c("li", [_vm._v("Nguyễn Gia Khiêm")])])
           ])
         ])
       ])
@@ -49674,83 +49722,296 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("div", { staticClass: "modal-body" }, [
-                _c("h2", [_vm._v("Đăng nhập")]),
-                _vm._v(" "),
-                _c("h3", { staticClass: "login-error" }, [
-                  _vm._v(_vm._s(_vm.error_login))
+                _c("div", { staticClass: "modal-nav" }, [
+                  _c(
+                    "div",
+                    {
+                      class: [_vm.mode === "login" ? "choice" : ""],
+                      on: { click: _vm.modeLogin }
+                    },
+                    [_vm._v("Đăng nhập")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    {
+                      class: [_vm.mode === "register" ? "choice" : ""],
+                      on: { click: _vm.modeRegister }
+                    },
+                    [_vm._v("Đăng ký")]
+                  )
                 ]),
                 _vm._v(" "),
-                _c("div", [
-                  _c("label", { attrs: { for: "email" } }, [_vm._v("Email")]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form_login.email,
-                        expression: "form_login.email"
-                      }
-                    ],
-                    attrs: { id: "email", type: "text" },
-                    domProps: { value: _vm.form_login.email },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(_vm.form_login, "email", $event.target.value)
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _c("div", [
-                  _c("label", { attrs: { for: "password" } }, [
-                    _vm._v("Mật khẩu")
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.form_login.password,
-                        expression: "form_login.password"
-                      }
-                    ],
-                    attrs: { type: "password", id: "password" },
-                    domProps: { value: _vm.form_login.password },
-                    on: {
-                      input: function($event) {
-                        if ($event.target.composing) {
-                          return
-                        }
-                        _vm.$set(
-                          _vm.form_login,
-                          "password",
-                          $event.target.value
+                _c("div", { staticClass: "modal-content" }, [
+                  _vm.mode === "login"
+                    ? _c("div", { staticClass: "login" }, [
+                        _c("h3", { staticClass: "login-error" }, [
+                          _vm._v(_vm._s(_vm.error_login))
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _c("label", { attrs: { for: "email" } }, [
+                            _vm._v("Email")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form_login.email,
+                                expression: "form_login.email"
+                              }
+                            ],
+                            attrs: { id: "email", type: "text" },
+                            domProps: { value: _vm.form_login.email },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.form_login,
+                                  "email",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _c("label", { attrs: { for: "password" } }, [
+                            _vm._v("Mật khẩu")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.form_login.password,
+                                expression: "form_login.password"
+                              }
+                            ],
+                            attrs: { type: "password", id: "password" },
+                            domProps: { value: _vm.form_login.password },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.form_login,
+                                  "password",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _vm._m(0),
+                        _vm._v(" "),
+                        _c(
+                          "button",
+                          {
+                            on: {
+                              click: function($event) {
+                                return _vm.loginSPA()
+                              }
+                            }
+                          },
+                          [_vm._v("Xác nhận")]
                         )
-                      }
-                    }
-                  })
-                ]),
-                _vm._v(" "),
-                _c("br"),
-                _vm._v(" "),
-                _c(
-                  "button",
-                  {
-                    on: {
-                      click: function($event) {
-                        return _vm.loginSPA()
-                      }
-                    }
-                  },
-                  [_vm._v("Xác nhận")]
-                )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _vm.mode === "register"
+                    ? _c("div", { staticClass: "register" }, [
+                        _c("div", [
+                          _c("label", { attrs: { for: "name" } }, [
+                            _vm._v("Tên người dùng")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.formRegister.name,
+                                expression: "formRegister.name"
+                              }
+                            ],
+                            attrs: {
+                              id: "name",
+                              type: "text",
+                              autocomplete: "off"
+                            },
+                            domProps: { value: _vm.formRegister.name },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.formRegister,
+                                  "name",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _c("label", { attrs: { for: "furigana-name" } }, [
+                            _vm._v("Furigana")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.formRegister.furigana,
+                                expression: "formRegister.furigana"
+                              }
+                            ],
+                            attrs: {
+                              id: "furigana-name",
+                              type: "text",
+                              autocomplete: "off"
+                            },
+                            domProps: { value: _vm.formRegister.furigana },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.formRegister,
+                                  "furigana",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _c("label", { attrs: { for: "email-register" } }, [
+                            _vm._v("Email")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.formRegister.email,
+                                expression: "formRegister.email"
+                              }
+                            ],
+                            attrs: {
+                              id: "email-register",
+                              type: "email",
+                              autocomplete: "off"
+                            },
+                            domProps: { value: _vm.formRegister.email },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.formRegister,
+                                  "email",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _c("label", { attrs: { for: "password-register" } }, [
+                            _vm._v("Mật khẩu")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.formRegister.password,
+                                expression: "formRegister.password"
+                              }
+                            ],
+                            attrs: {
+                              type: "password",
+                              id: "password-register",
+                              autocomplete: "new-password"
+                            },
+                            domProps: { value: _vm.formRegister.password },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.formRegister,
+                                  "password",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("div", [
+                          _c("label", { attrs: { for: "confirm-password" } }, [
+                            _vm._v("Nhập lại mật khẩu")
+                          ]),
+                          _vm._v(" "),
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.formRegister.password_confirmation,
+                                expression: "formRegister.password_confirmation"
+                              }
+                            ],
+                            attrs: {
+                              type: "password",
+                              id: "confirm-password",
+                              autocomplete: "new-password"
+                            },
+                            domProps: {
+                              value: _vm.formRegister.password_confirmation
+                            },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.formRegister,
+                                  "password_confirmation",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("button", { on: { click: _vm.registerSPA } }, [
+                          _vm._v("Đăng ký")
+                        ])
+                      ])
+                    : _vm._e()
+                ])
               ])
             ])
           ])
@@ -49758,7 +50019,30 @@ var render = function() {
       ])
     : _vm._e()
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "login-social" }, [
+      _c("img", {
+        attrs: {
+          src:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/480px-Google_%22G%22_Logo.svg.png",
+          alt: "Google"
+        }
+      }),
+      _vm._v(" "),
+      _c("img", {
+        attrs: {
+          src:
+            "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Facebook_Logo_%282019%29.png/1200px-Facebook_Logo_%282019%29.png",
+          alt: "Facebook"
+        }
+      })
+    ])
+  }
+]
 render._withStripped = true
 
 

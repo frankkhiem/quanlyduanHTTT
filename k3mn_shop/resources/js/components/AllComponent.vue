@@ -16,11 +16,7 @@
           <div class="footer-col-2">
             <h3>Sản phẩm của:</h3>
             <ul>
-              <li>Nguyễn Quốc Khánh</li>
               <li>Nguyễn Gia Khiêm</li>
-              <li>Nguyễn Huy Mạnh</li>
-              <li>Trần Minh Khương</li>
-              <li>Nguyễn Văn Nam</li>
             </ul>
           </div>
         </div>

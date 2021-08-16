@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use App\User;
+use Illuminate\Support\Facades\Hash;
 
 class AuthSPAController extends Controller
 {
@@ -32,6 +35,39 @@ class AuthSPAController extends Controller
 
         return response()->json([
             'message' => 'logout successfully',
+        ]);
+    }
+
+    public function register(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|confirmed'
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 'fails',
+                'message' => $validator->errors()->first(),
+                'errors' => $validator->errors()->toArray(),
+            ]);
+        }
+
+        $user = new User([
+            'name' => $request->name,
+            'furigana' => $request->furigana,
+            'email' => $request->email,
+            'password' => Hash::make($request->password)
+        ]);
+
+        $user->save();
+
+        Auth::login($user);
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'register successfully',
+            'user' => $user
         ]);
     }
 }
