@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Services;
+use App\User;
 
 class SortJapaneseService {
   private static $alphabet = [
@@ -61,13 +62,40 @@ class SortJapaneseService {
     } else {
       $index2 = -1;
     }
-
+    if ( $index1 == -1 && $index2 == -1 ) {
+      return strcmp($kana1, $kana2);
+    }
     return $index1 - $index2;
   }
 
   // Hàm so sánh 2 tên tiếng Nhật
   static function compare2Name( $name1, $name2 ) {
-    if ( $name1 === $name2 ) return 0;
+    if ( strtolower($name1) === strtolower($name2) ) return 0;
+
+    $nameSlice1 = self::nameSlice($name1);
+    $nameSlice2 = self::nameSlice($name2);
+
+    $loops = count($nameSlice1) < count($nameSlice2) ? count($nameSlice1):count($nameSlice2);
+
+    for ( $i = 0; $i < $loops; $i++ ) {
+      if ( self::compare2Kana( $nameSlice1[$i],  $nameSlice2[$i]) === 0 ) {
+        continue;
+      } else if (self::compare2Kana( $nameSlice1[$i],  $nameSlice2[$i]) < 0) {
+        return -1;
+      } else if (self::compare2Kana( $nameSlice1[$i],  $nameSlice2[$i]) > 0) {
+        return 1;
+      }
+    }
+
+    return count($nameSlice1) - count($nameSlice2);
+  }
+
+  // So sánh 2 ojbect User dựa theo tên Furigana của họ
+  static function compareFurigana2User( User $user1, User $user2 ) {
+    $name1 = $user1['furigana'] === null ? '':$user1['furigana'];
+    $name2 = $user2['furigana'] === null ? '':$user2['furigana'];
+
+    if ( strtolower($name1) === strtolower($name2) ) return 0;
 
     $nameSlice1 = self::nameSlice($name1);
     $nameSlice2 = self::nameSlice($name2);
@@ -91,8 +119,5 @@ class SortJapaneseService {
     usort( $namesList, array("App\Http\Services\SortJapaneseService", "compare2Name") );
     return $namesList;
   }
-
-  public function hello() {
-    return $this->alphabet;
-  }
+  
 }

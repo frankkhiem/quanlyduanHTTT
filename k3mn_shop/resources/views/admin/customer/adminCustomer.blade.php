@@ -12,7 +12,6 @@
         <div class="card-header">
             <div class="card-tools">
                 <ul class="pagination pagination-sm m-0 float-right">
-                    {{ $listCustomer->links() }}
                 </ul>
             </div>
         </div>

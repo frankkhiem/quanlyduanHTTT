@@ -19,24 +19,29 @@ class AdminCustomerController extends Controller
                                         $query->where('name', 'like', '%'.$keywork.'%')
                                                 ->orWhere('email', 'like', '%'.$keywork.'%');
                                     })
-                                    ->paginate(10);
+                                    ->get();
         }
         else {
-            $listCustomer = User::where('role_id', 1)->paginate(10);
+            $listCustomer = User::where('role_id', 1)->get();
         }
-        // dd(phpinfo());
 
-        $namesList = [
-            'Tamura',
-            'Tanaka',
-            'Miu',
-            'Maria',
-            'Shiriwa',
-            'Itachi'
-        ];
-        dd( SortJapaneseService::sortNamesList( $namesList ) );
-        
-        // test sort tieng Nhat
+        $listCustomer = $listCustomer->sort( array("App\Http\Services\SortJapaneseService", "compareFurigana2User") );
+
+        // Test ham sort ten tieng Nhat
+        // $namesList = [
+        //     'Tamura',
+        //     'Akiyama',
+        //     'TaNakA',
+        //     'Yamanami',
+        //     'Shikichi',
+        //     'Fujimoto',
+        //     'Osada',
+        //     'Keiki',
+        //     'Aikawa',
+        //     'Shiba',
+        //     'Hashimoto',
+        // ];
+        // dd( SortJapaneseService::sortNamesList( $namesList ) );
         
 
         return view('admin.customer.adminCustomer',
