@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Collator;
 use Illuminate\Http\Request;
+use App\Http\Services\SortJapaneseService;
 
 class AdminCustomerController extends Controller
 {
@@ -22,6 +24,21 @@ class AdminCustomerController extends Controller
         else {
             $listCustomer = User::where('role_id', 1)->paginate(10);
         }
+        // dd(phpinfo());
+
+        $namesList = [
+            'Tamura',
+            'Tanaka',
+            'Miu',
+            'Maria',
+            'Shiriwa',
+            'Itachi'
+        ];
+        dd( SortJapaneseService::sortNamesList( $namesList ) );
+        
+        // test sort tieng Nhat
+        
+
         return view('admin.customer.adminCustomer',
                     [
                         'listCustomer' => $listCustomer,

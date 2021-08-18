@@ -110,6 +110,7 @@ export default {
           console.log(response.data);          
           if (response.data.status === 'fails') {
             alert(response.data.message);
+            this.formRegister = {}
           } else if (response.data.status === 'ok') {
             this.$router.go();
           }
@@ -123,21 +124,12 @@ export default {
 
     modeLogin: function() {
       this.mode = 'login';
-      this.formRegister = {
-        name: '',
-        furigana: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-      }
+      this.formRegister = {}
     },
 
     modeRegister: function() {
       this.mode = 'register';
-      this.form_login = {
-          email: '',
-          password: '',
-      };
+      this.form_login = {};
     },
 
     ...mapActions({

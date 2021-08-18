@@ -20,8 +20,9 @@
             <thead>
             <tr>
                 <th style="width: 5%">#</th>
-                <th style="width: 30%">Tên tài khoản</th>
-                <th style="width: 35%">Email</th>
+                <th style="width: 23%">Tên tài khoản</th>
+                <th style="width: 22%">Furigana</th>
+                <th style="width: 25%">Email</th>
                 <th style="width: 20%">Ngày đăng ký</th>
                 <th style="width: 10%">Thao tác</th>
             </tr>
@@ -31,6 +32,7 @@
             <tr>
                 <td>{{ $loop->index+1 }}</td>
                 <td>{{ $customer->name }}</td>
+                <td>{{ $customer->furigana }}</td>
                 <td>{{ $customer->email }}</td>
                 <td>{{ $customer->created_at }}</td>
                 <td >

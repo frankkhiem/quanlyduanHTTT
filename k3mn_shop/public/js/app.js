@@ -4276,6 +4276,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           if (response.data.status === 'fails') {
             alert(response.data.message);
+            _this2.formRegister = {};
           } else if (response.data.status === 'ok') {
             _this2.$router.go();
           }
@@ -4286,20 +4287,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     modeLogin: function modeLogin() {
       this.mode = 'login';
-      this.formRegister = {
-        name: '',
-        furigana: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-      };
+      this.formRegister = {};
     },
     modeRegister: function modeRegister() {
       this.mode = 'register';
-      this.form_login = {
-        email: '',
-        password: ''
-      };
+      this.form_login = {};
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapActions"])({
     closedModalLogin: 'closedLogin'
