@@ -16,6 +16,7 @@ class AlterTableUser extends Migration
         //
         Schema::table('users', function (Blueprint $table) {
             $table->string('furigana')->nullable();
+            $table->text('furigana_code')->index('code_jp_name_index');
         });
     }
 

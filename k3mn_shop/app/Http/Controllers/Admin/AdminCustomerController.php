@@ -15,17 +15,25 @@ class AdminCustomerController extends Controller
         $keywork = $request->q;
         if( $keywork ) {
             $listCustomer = User::where('role_id', 1)
-                                    ->where(function($query) use ($keywork) {
-                                        $query->where('name', 'like', '%'.$keywork.'%')
-                                                ->orWhere('email', 'like', '%'.$keywork.'%');
-                                    })
-                                    ->get();
+                                ->where(function($query) use ($keywork) {
+                                    $query->where('name', 'like', '%'.$keywork.'%')
+                                            ->orWhere('email', 'like', '%'.$keywork.'%');
+                                })
+                                ->orderBy('furigana_code')
+                                ->orderBy('id')
+                                ->paginate(10);
         }
         else {
-            $listCustomer = User::where('role_id', 1)->get();
+            $listCustomer = User::where('role_id', 1)
+                                ->orderBy('furigana_code')
+                                ->orderBy('id')
+                                ->paginate(10);
         }
 
-        $listCustomer = $listCustomer->sort( array("App\Http\Services\SortJapaneseService", "compareFurigana2User") );
+        // dd( $listCustomer );
+        // dd( SortJapaneseService::nameEncrypt('Igarashi') );
+
+        // $listCustomer = $listCustomer->sort( array("App\Http\Services\SortJapaneseService", "compareFurigana2User") );
 
         // Test ham sort ten tieng Nhat
         // $namesList = [
@@ -35,7 +43,8 @@ class AdminCustomerController extends Controller
         //     'Yamanami',
         //     'Shikichi',
         //     'Fujimoto',
-        //     'Osada',
+        //     'Osadasu',
+        //     'Igarashi',
         //     'Keiki',
         //     'Aikawa',
         //     'Shiba',
@@ -49,6 +58,8 @@ class AdminCustomerController extends Controller
                         'listCustomer' => $listCustomer,
                     ]);
     }
+
+
     public function listCustomerBanned(Request $request) {
         $keywork = $request->q;
         if( $keywork ) {

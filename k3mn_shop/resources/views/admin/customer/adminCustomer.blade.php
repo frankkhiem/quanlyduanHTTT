@@ -12,6 +12,7 @@
         <div class="card-header">
             <div class="card-tools">
                 <ul class="pagination pagination-sm m-0 float-right">
+                    {{ $listCustomer->links() }}
                 </ul>
             </div>
         </div>
@@ -19,11 +20,11 @@
             <thead>
             <tr>
                 <th style="width: 5%">#</th>
-                <th style="width: 23%">Tên tài khoản</th>
-                <th style="width: 22%">Furigana</th>
+                <th style="width: 20%">Tên tài khoản</th>
+                <th style="width: 20%">Furigana</th>
                 <th style="width: 25%">Email</th>
                 <th style="width: 20%">Ngày đăng ký</th>
-                <th style="width: 10%">Thao tác</th>
+                <th style="width: 15%">Thao tác</th>
             </tr>
             </thead>
             <tbody>

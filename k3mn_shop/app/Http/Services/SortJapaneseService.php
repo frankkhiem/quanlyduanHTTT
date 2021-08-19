@@ -17,6 +17,21 @@ class SortJapaneseService {
     'wa', 'wo',
   ];
 
+  // Mảng ánh xạ âm tiết sang mã
+  private static $mappingAlphabet = [
+    'a' => 'b1', 'i' => 'b2', 'u' => 'b3', 'e' => 'b4', 'o' => 'b5',
+    'ka' => 'c1', 'ki' => 'c2', 'ku' => 'c3', 'ke' => 'c4', 'ko' => 'c5',
+    'sa' => 'd1', 'shi' => 'd2', 'su' => 'd3', 'se' => 'd4', 'so' => 'd5',
+    'ta' => 'e1', 'chi' => 'e2', 'tsu' => 'e3', 'te' => 'e4', 'to' => 'e5',
+    'na' => 'f1', 'ni' => 'f2', 'nu' => 'f3', 'ne' => 'f4', 'no' => 'f5',
+    'ha' => 'g1', 'hi' => 'g2', 'fu' => 'g3', 'he' => 'g4', 'ho' => 'g5',
+    'ma' => 'h1', 'mi' => 'h2', 'mu' => 'h3', 'me' => 'h4', 'mo' => 'h5',
+    'ya' => 'i1', 'yu' => 'i2', 'yo' => 'i3',
+    'ra' => 'j1', 'ri' => 'j2', 'ru' => 'j3', 're' => 'j4', 'ro' => 'j5',
+    'wa' => 'k1', 'wo' => 'k2',
+  ];
+
+  // Hàm tách tên Furigana thành mảng từng âm tiết
   static function nameSlice( String $name ) {
     // chuyen cac ky tu viet hoa thanh viet thuong
     $name = strtolower( $name );
@@ -47,6 +62,24 @@ class SortJapaneseService {
       $i++;
     }
     return $result;
+  }
+
+  // Hàm mã hóa 1 tên tiếng Nhật !!! Hàm quan trọng để mã hóa tên rồi dùng chuỗi mã hóa orderBy trong query DB
+  static function nameEncrypt( String $name ) {
+    if ( $name === '' ) return '';
+    $nameSlice = self::nameSlice($name);
+
+    $nameCode = '';
+
+    foreach ( $nameSlice as $char ) {
+      if ( array_key_exists($char, self::$mappingAlphabet) ) {
+        $nameCode .= self::$mappingAlphabet[$char];
+      } else {
+        $nameCode .= "a0$char";
+      }
+    }
+
+    return $nameCode ;
   }
 
   // Hàm so sánh 2 âm tiết

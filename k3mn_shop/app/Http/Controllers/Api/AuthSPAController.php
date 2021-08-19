@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\User;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Services\SortJapaneseService;
 
 class AuthSPAController extends Controller
 {
@@ -53,9 +54,12 @@ class AuthSPAController extends Controller
             ]);
         }
 
+        is_null($request->furigana) ? $furiganaCode = '' : $furiganaCode = SortJapaneseService::nameEncrypt($request->furigana);
+
         $user = new User([
             'name' => $request->name,
             'furigana' => $request->furigana,
+            'furigana_code' => $furiganaCode,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
