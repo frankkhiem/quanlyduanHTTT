@@ -39033,11 +39033,15 @@ Echo["private"]('notifications_for_admin').listen('NewImportFileStatus', functio
     _alertCard2.classList.add('alert-success');
 
     var modalResult = document.getElementById('result-import');
-    var totalRowsProductFailed = data.description.productsImport.arrayRowsFail.length;
+    var totalRowsProductFailed = data.description.productsImport.arrayRowsFail.filter(function (item) {
+      return item[3];
+    }).length;
     var listRowsProductFailed = 'None';
 
     if (totalRowsProductFailed > 0) {
-      listRowsProductFailed = data.description.productsImport.arrayRowsFail.map(function (item) {
+      listRowsProductFailed = data.description.productsImport.arrayRowsFail.filter(function (item) {
+        return item[3];
+      }).map(function (item) {
         return item[0];
       }).join(', ');
     }

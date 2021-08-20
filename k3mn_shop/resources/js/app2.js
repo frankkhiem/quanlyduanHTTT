@@ -65,12 +65,18 @@ Echo.private('notifications_for_admin')
 
     let modalResult = document.getElementById('result-import');
 
-    let totalRowsProductFailed = data.description.productsImport.arrayRowsFail.length;
+    let totalRowsProductFailed = data.description.productsImport.arrayRowsFail.filter((item) => {
+      return item[3];
+    }).length;
     let listRowsProductFailed = 'None';
     if (totalRowsProductFailed > 0) {
-      listRowsProductFailed = data.description.productsImport.arrayRowsFail.map((item) => {
+      listRowsProductFailed = data.description.productsImport.arrayRowsFail.filter((item) => {
+        return item[3];
+      })
+      .map((item) => {
         return item[0];
-      }).join(', ');
+      })
+      .join(', ');
     }
     let totalRowsProductSuccess = data.description.productsImport.totalRowsReaded - totalRowsProductFailed;
 

@@ -14,7 +14,7 @@
             <a href=" {{ route('viewFileImportProducts') }} " class="btn btn-outline-primary" id="btn-file-import">Nhập bằng file</a>
             <div class="card-tools">
                 <ul class="pagination pagination-sm m-0 float-right">
-                    {{ $products->links() }}
+                    {{ $products->onEachSide(1)->links() }}
                 </ul>
             </div>
         </div>

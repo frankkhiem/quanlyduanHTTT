@@ -29,28 +29,6 @@ class AdminCustomerController extends Controller
                                 ->orderBy('id')
                                 ->paginate(10);
         }
-
-        // dd( $listCustomer );
-        // dd( SortJapaneseService::nameEncrypt('Igarashi') );
-
-        // $listCustomer = $listCustomer->sort( array("App\Http\Services\SortJapaneseService", "compareFurigana2User") );
-
-        // Test ham sort ten tieng Nhat
-        // $namesList = [
-        //     'Tamura',
-        //     'Akiyama',
-        //     'TaNakA',
-        //     'Yamanami',
-        //     'Shikichi',
-        //     'Fujimoto',
-        //     'Osadasu',
-        //     'Igarashi',
-        //     'Keiki',
-        //     'Aikawa',
-        //     'Shiba',
-        //     'Hashimoto',
-        // ];
-        // dd( SortJapaneseService::sortNamesList( $namesList ) );
         
 
         return view('admin.customer.adminCustomer',
