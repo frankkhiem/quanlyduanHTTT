@@ -8,13 +8,29 @@ class SortJapaneseService {
     'a', 'i', 'u', 'e', 'o',
     'ka', 'ki', 'ku', 'ke', 'ko',
     'sa', 'shi', 'su', 'se', 'so',
-    'ta', 'chi', 'tsu', 'te', 'to',
+    'ta', 'chi', 'TSU', 'tsu', 'te', 'to',
     'na', 'ni', 'nu', 'ne', 'no',
     'ha', 'hi', 'fu', 'he', 'ho',
     'ma', 'mi', 'mu', 'me', 'mo',
     'ya', 'yu', 'yo',
     'ra', 'ri', 'ru', 're', 'ro',
-    'wa', 'wo',
+    'wa', 'wo', 'n',
+    'ga', 'gi', 'gu', 'ge', 'go',
+    'za', 'ji', 'zu', 'ze', 'zo',
+    'da', 'di', 'du', 'de', 'do',
+    'ba', 'bi', 'bu', 'be', 'bo',
+    'pa', 'pi', 'pu', 'pe', 'po',
+    'kya', 'kyu', 'kyo',
+    'sha', 'shu', 'sho',
+    'chi', 'chu', 'cho',
+    'nya', 'nyu', 'nyo',
+    'hya', 'hyu', 'hyo',
+    'mya', 'myu', 'myo',
+    'rya', 'ryu', 'ryo',
+    'gya', 'gyu', 'gyo',
+    'ja', 'ju', 'jo',
+    'bya', 'byu', 'byo',
+    'pya', 'pyu', 'pyo',
   ];
 
   // Mảng ánh xạ âm tiết sang mã
@@ -22,14 +38,31 @@ class SortJapaneseService {
     'a' => 'b1', 'i' => 'b2', 'u' => 'b3', 'e' => 'b4', 'o' => 'b5',
     'ka' => 'c1', 'ki' => 'c2', 'ku' => 'c3', 'ke' => 'c4', 'ko' => 'c5',
     'sa' => 'd1', 'shi' => 'd2', 'su' => 'd3', 'se' => 'd4', 'so' => 'd5',
-    'ta' => 'e1', 'chi' => 'e2', 'tsu' => 'e3', 'te' => 'e4', 'to' => 'e5',
+    'ta' => 'e1', 'chi' => 'e2', 'TSU' => 'e3', 'tsu' => 'e4', 'te' => 'e5', 'to' => 'e6',
     'na' => 'f1', 'ni' => 'f2', 'nu' => 'f3', 'ne' => 'f4', 'no' => 'f5',
     'ha' => 'g1', 'hi' => 'g2', 'fu' => 'g3', 'he' => 'g4', 'ho' => 'g5',
     'ma' => 'h1', 'mi' => 'h2', 'mu' => 'h3', 'me' => 'h4', 'mo' => 'h5',
     'ya' => 'i1', 'yu' => 'i2', 'yo' => 'i3',
     'ra' => 'j1', 'ri' => 'j2', 'ru' => 'j3', 're' => 'j4', 'ro' => 'j5',
-    'wa' => 'k1', 'wo' => 'k2',
+    'wa' => 'k1', 'wo' => 'k2', 'n' => 'k3',
+    'ga' => 'l1', 'gi' => 'l2', 'gu' => 'l3', 'ge' => 'l4', 'go' => 'l5',
+    'za' => 'm1', 'ji' => 'm2', 'zu' => 'm3', 'ze' => 'm4', 'zo' => 'm5',
+    'da' => 'n1', 'di' => 'n2', 'du' => 'n3', 'de' => 'n4', 'do' => 'n5',
+    'ba' => 'o1', 'bi' => 'o2', 'bu' => 'o3', 'be' => 'o4', 'bo' => 'o5',
+    'pa' => 'p1', 'pi' => 'p2', 'pu' => 'p3', 'pe' => 'p4', 'po' => 'p5',
+    'kya' => 'q1', 'kyu' => 'q2', 'kyo' => 'q3',
+    'sha' => 'q4', 'shu' => 'q5', 'sho' => 'q6',
+    'chi' => 'r1', 'chu' => 'r2', 'cho' => 'r3',
+    'nya' => 'r4', 'nyu' => 'r5', 'nyo' => 'r6',
+    'hya' => 's1', 'hyu' => 's2', 'hyo' => 's3',
+    'mya' => 's4', 'myu' => 's5', 'myo' => 's6',
+    'rya' => 't1', 'ryu' => 't2', 'ryo' => 't3',
+    'gya' => 't4', 'gyu' => 't5', 'gyo' => 't6',
+    'ja' => 'u1', 'ju' => 'u2', 'jo' => 'u3',
+    'bya' => 'u4', 'byu' => 'u5', 'byo' => 'u6',
+    'pya' => 'w1', 'pyu' => 'w2', 'pyo' => 'w3',
   ];
+
 
   // Hàm tách tên Furigana thành mảng từng âm tiết
   static function nameSlice( String $name ) {
@@ -49,13 +82,25 @@ class SortJapaneseService {
       // Khai báo kana là âm tiết tiếng nhật
       $kana = $arrayChars[$i];
 
-      // Nếu kana không thuộc bảng chữ cái thì kana nối thêm ký tự tiếp theo
-      while ( !in_array($kana, self::$alphabet) ) {
-        $i++;
-        // Nếu là nối đến ký tự cuối cùng thì dừng
-        if ($i >= $nameLength) break;
-        // Nếu chưa phải ký tự cuối cùng thì nối tiếp vào kana
-        $kana = $kana . $arrayChars[$i];
+      if ($kana == 'n') {
+        if ( ($i + 1 < $nameLength) && in_array($kana . $arrayChars[$i + 1], self::$alphabet) ) {
+          $kana .= $arrayChars[++$i];
+        }
+      } 
+      else {
+        if ($i + 1 < $nameLength && $kana == $arrayChars[$i + 1]) {
+          $kana = 'TSU';
+        } 
+        else {
+          // Nếu kana không thuộc bảng chữ cái thì kana nối thêm ký tự tiếp theo
+          while ( !in_array($kana, self::$alphabet) ) {
+            $i++;
+            // Nếu là nối đến ký tự cuối cùng thì dừng
+            if ($i >= $nameLength) break;
+            // Nếu chưa phải ký tự cuối cùng thì nối tiếp vào kana
+            $kana = $kana . $arrayChars[$i];
+          }
+        }
       }
 
       $result[] = $kana;
