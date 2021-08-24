@@ -2,9 +2,11 @@
 
 namespace App\Http\Services;
 use App\User;
+use Illuminate\Support\Collection;
+use stdClass;
 
 class SortJapaneseService {
-  private static $alphabet = [
+  public static $alphabet = [
     'a', 'i', 'u', 'e', 'o',
     'ka', 'kya', 'kyu', 'kyo', 'ki', 'ku', 'ke', 'ko',
     'sa', 'sha', 'shu', 'sho', 'shi', 'su', 'se', 'so',
@@ -23,7 +25,7 @@ class SortJapaneseService {
   ];
 
   // Mảng ánh xạ âm tiết sang mã
-  private static $mappingAlphabet = [
+  public static $mappingAlphabet = [
     'a' => 'b1', 'i' => 'b2', 'u' => 'b3', 'e' => 'b4', 'o' => 'b5',
     'ka' => 'c1', 'kya' => 'c2', 'kyu' => 'c3', 'kyo' => 'c4', 'ki' => 'c5', 'ku' => 'c6', 'ke' => 'c7', 'ko' => 'c8',
     'sa' => 'd1', 'sha' => 'd2', 'shu' => 'd3', 'sho' => 'd4', 'shi' => 'd5', 'su' => 'd6', 'se' => 'd7', 'so' => 'd8',
@@ -151,29 +153,23 @@ class SortJapaneseService {
     $name1 = $user1['furigana'] === null ? '':$user1['furigana'];
     $name2 = $user2['furigana'] === null ? '':$user2['furigana'];
 
-    if ( strtolower($name1) === strtolower($name2) ) return 0;
+    return self::compare2Name($name1, $name2);
+  }
 
-    $nameSlice1 = self::nameSlice($name1);
-    $nameSlice2 = self::nameSlice($name2);
+  public static function sortNamesList( array $namesList, $mode = 'array' ) {
+    usort( $namesList, array("App\Http\Services\SortJapaneseService", "compare2Name") );
+    $result = array_map(function($name) {
+      $row = new stdClass;
+      $row->name = $name;
+      $row->slice = implode(", ", self::nameSlice($name));
+      $row->encrypt = self::nameEncrypt($name);
+      return $row;
+    }, $namesList);
 
-    $loops = count($nameSlice1) < count($nameSlice2) ? count($nameSlice1):count($nameSlice2);
-
-    for ( $i = 0; $i < $loops; $i++ ) {
-      if ( self::compare2Kana( $nameSlice1[$i],  $nameSlice2[$i]) === 0 ) {
-        continue;
-      } else if (self::compare2Kana( $nameSlice1[$i],  $nameSlice2[$i]) < 0) {
-        return -1;
-      } else if (self::compare2Kana( $nameSlice1[$i],  $nameSlice2[$i]) > 0) {
-        return 1;
-      }
+    if ($mode == 'collection') {
+      return collect($result);
     }
 
-    return count($nameSlice1) - count($nameSlice2);
-  }
-
-  public static function sortNamesList( array $namesList ) {
-    usort( $namesList, array("App\Http\Services\SortJapaneseService", "compare2Name") );
     return $namesList;
   }
-  
 }

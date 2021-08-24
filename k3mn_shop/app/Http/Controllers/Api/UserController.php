@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\User;
+use App\Http\Helpers\JapaneseHelper;
 
 class UserController extends Controller
 {
@@ -27,6 +28,8 @@ class UserController extends Controller
                         'name' => $request->name,
                         'birthday' => $request->birthday,
                         'address' => $request->address,
+                        'fugigana' => $request->furigana,
+                        'furigana_code' => JapaneseHelper::nameEncrypt($request->furigana),
                     ]
                 );
 

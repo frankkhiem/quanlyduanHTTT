@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\LogSortJPNames;
 use App\Http\Controllers\Controller;
 use App\User;
 use Collator;
 use Illuminate\Http\Request;
 use App\Http\Services\SortJapaneseService;
+use App\Http\Helpers\JapaneseHelper;
+use Maatwebsite\Excel\Facades\Excel;
 
 class AdminCustomerController extends Controller
 {
@@ -29,38 +32,6 @@ class AdminCustomerController extends Controller
                                 ->orderBy('id')
                                 ->paginate(10);
         }
-
-        // dd( $listCustomer );
-        // dd( SortJapaneseService::nameSlice('kagen') );
-
-        // $listCustomer = $listCustomer->sort( array("App\Http\Services\SortJapaneseService", "compareFurigana2User") );
-
-        // Test ham sort ten tieng Nhat
-        // $namesList = [
-        //     'Tamura',
-        //     'Akiyama',
-        //     'TaNakA',
-        //     'Yamanami',
-        //     'Shikichi',
-        //     'Fujimoto',
-        //     'Osadasu',
-        //     'Igarashi',
-        //     'Keiki',
-        //     'Aikawa',
-        //     'Shiba',
-        //     'Hashimoto',
-        // ];
-        $namesList = [
-            'isha',
-            'kagen',
-            'ishia',
-            'katte',
-            'kitte',
-            'katsute',
-        ];
-
-        dd( SortJapaneseService::sortNamesList( $namesList ) );
-        
 
         return view('admin.customer.adminCustomer',
                     [
