@@ -33,6 +33,33 @@ class AdminCustomerController extends Controller
                                 ->paginate(10);
         }
 
+        // dd( $listCustomer );
+        // dd( JapaneseHelper::nameSlice('Ipai') );
+
+        // $listCustomer = $listCustomer->sort( array("App\Http\Services\SortJapaneseService", "compareFurigana2User") );
+
+        // Test ham sort ten tieng Nhat
+        // $namesList = [
+        //     'Tamura', 'Akiyama', 'TaNakA', 'Yamanami', 'Shikichi', 
+        //     'Fujimoto', 'Osadasu', 'Igarashi', 'Keiki', 'Aikawa',
+        //     'Shiba', 'Hashimoto', 'Igarashi', 'Saburou', 'Kyou',
+        //     'Goro', 'Sadao', 'Hiraku', 'Ichirou', 'Kouki',
+        //     'Aki', 'Susumu', 'Aoi', 'Kenshin', 'Ryuu', 'Ipai',
+        //     'Seiichi', 'Takahiro', 'Hotaka', 'Masaru', 'Yuki',
+        //     'Ryouta', 'Akihiko', 'Shigeo', 'Hideki', 'Yuuki',
+        //     'Yoshirou', 'Ryuunosuke', 'Takashi', 'Masashi', 'Iwao',
+        //     'Shouta', 'Jurou', 'Takeshi', 'Shouta', 'Kyou',
+        //     'Ryouta', 'Ryuunosuke', 'Zasshi', 'Kekkon', 'Ippai',
+        // ];
+
+        // dd( SortJapaneseService::sortNamesList( $namesList ) );
+
+        // date_default_timezone_set("Asia/Bangkok");
+        // $now = date("His_d-m-Y");
+        // $logFile = "log_sort/log_sort_japanese_names". $now. ".csv";
+        // Excel::store(new LogSortJPNames( SortJapaneseService::sortNamesList( $namesList ) ), $logFile);
+        
+
         return view('admin.customer.adminCustomer',
                     [
                         'listCustomer' => $listCustomer,
