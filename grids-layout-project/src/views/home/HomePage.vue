@@ -9,6 +9,8 @@
       </button>
       <button class="clear-all" @click="clearAll">
         Clear All
+      </button><button class="save" @click="saveLayout">
+        Save Layout
       </button>
     </div>
     <div class="grid-container">
@@ -26,14 +28,17 @@ export default {
 
   data() {
     return {
-      layout: [
-        {x: 0, y: 0, w: 2, h: 2, i: "1", name: "Item 1"},
-        {x: 2, y: 0, w: 2, h: 2, i: "2", name: "Item 2"},
-      ],
+      layout: [],
       index: 0,
     }
   },
 
+  created() {
+    let data = sessionStorage.getItem('layout');
+    this.layout = JSON.parse(data) || [];
+    console.log(this.layout);
+  },
+  
   mounted() {
     this.index = this.layout.length;
   },
@@ -57,6 +62,12 @@ export default {
     removeItem(itemId) {
       const indexRemove = this.layout.map(item => item.i).indexOf(itemId);
       this.layout.splice(indexRemove, 1);
+    },
+    async saveLayout() {
+      let data = JSON.stringify(this.layout);
+      console.log(data);
+      sessionStorage.setItem('layout', data);
+      alert('Saved layout')
     }
   },
 }
@@ -75,7 +86,7 @@ export default {
 
   }
 
-
+  .save,
   .clear-all,
   .add-item {
     padding: 10px 25px;
@@ -84,6 +95,7 @@ export default {
     border: none;
     border-radius: 4px;
     margin-right: 20px;
+    cursor: pointer;
   }
 
   .add-item {
@@ -92,6 +104,10 @@ export default {
 
   .clear-all {
     background-color: #d28536;
+  }
+
+  .save {
+    background-color: grey;
   }
 
   .grid-container {
